@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+{% block title %}Criar conta — BiblioMatch{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto py-4 sm:py-8">
+  <div class="card p-6 sm:p-8">
+    <p class="tile w-14 h-14 mx-auto bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-white shadow-soft">{% include 'core/partials/icon.html' with name='user' cls='w-6 h-6' %}</p>
+    <h1 class="text-2xl font-extrabold tracking-tight text-center mt-4">Criar conta</h1>
+    <p class="text-sm text-slate-500 dark:text-slate-400 text-center mt-1 mb-6">O cadastro leva menos de um minuto.</p>
+    <form method="post" class="space-y-4" novalidate>{% csrf_token %}
+      {% for f in form %}
+      <div>
+        <label class="flabel" for="{{ f.id_for_label }}">{{ f.label }}</label>
+        {{ f }}
+        {% if f.errors %}<p class="text-xs text-red-500 mt-1.5 font-medium">{{ f.errors.0 }}</p>{% endif %}
+        {% if f.help_text %}<p class="text-[11px] text-slate-400 mt-1 leading-relaxed">{{ f.help_text }}</p>{% endif %}
+      </div>
+      {% endfor %}
+      <button class="btn-primary w-full !py-3">Criar conta</button>
+    </form>
+    <p class="text-sm text-center mt-6 text-slate-500">Já possui conta? <a href="{% url 'login' %}" class="font-bold text-indigo-500 hover:text-indigo-600">Entrar</a></p>
+  </div>
+</div>
+{% endblock %}

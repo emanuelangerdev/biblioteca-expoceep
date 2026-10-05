@@ -1,0 +1,37 @@
+{% extends 'core/base.html' %}
+{% block title %}Meus matches — BiblioMatch{% endblock %}
+{% block content %}
+<div class="space-y-1.5 max-w-2xl">
+  <span class="eyebrow">Conexões</span>
+  <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Meus matches literários</h1>
+  <p class="text-sm text-slate-500 dark:text-slate-400">Leitores que favoritaram as mesmas obras que você. Inicie uma conversa via WhatsApp.</p>
+</div>
+
+<div class="grid sm:grid-cols-2 gap-3 sm:gap-5 mt-6">
+{% for c in cards %}
+<article class="card card-hover p-5 sm:p-6 text-center relative overflow-hidden">
+  <div class="absolute inset-x-0 top-0 h-1.5" style="background:linear-gradient(90deg,#6366f1,#d946ef)"></div>
+  <span class="avatar w-14 h-14 text-xl mx-auto mt-2">{{ c.outro.username|first|upper }}</span>
+  <p class="font-extrabold mt-3">{{ c.outro.username }}</p>
+  <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">também favoritou</p>
+  <a href="{% url 'livro_detalhe' c.match.livro.pk %}" class="inline-block font-bold text-indigo-500 hover:underline mt-0.5 leading-snug">“{{ c.match.livro.titulo }}”</a>
+  <p class="text-xs text-slate-400 mt-1.5">{{ c.match.livro.autor }} · Match em {{ c.match.criado_em|date:"d/m/Y" }}</p>
+  <div class="flex gap-2 mt-5">
+    <a href="{% url 'livro_detalhe' c.match.livro.pk %}" class="btn-ghost text-xs flex-1">Ver obra</a>
+    {% if c.wa_url %}
+    <a href="{{ c.wa_url }}" target="_blank" rel="noopener" class="flex-1 inline-flex items-center justify-center gap-1.5 text-xs font-bold text-white rounded-[.9rem] py-2.5 px-3 hover:brightness-105 hover:scale-[1.02] active:scale-100 transition shadow" style="background:linear-gradient(135deg,#22c55e,#16a34a)">{% include 'core/partials/icon.html' with name='phone' cls='w-4 h-4' %}Contatar</a>
+    {% else %}
+    <span class="flex-1 text-center text-xs font-semibold text-slate-400 border border-dashed border-slate-300 dark:border-slate-600 rounded-[.9rem] py-2.5" title="Este leitor ainda não cadastrou telefone">Sem contato</span>
+    {% endif %}
+  </div>
+</article>
+{% empty %}
+<div class="card p-10 sm:p-14 text-center col-span-full">
+  <p class="tile w-16 h-16 mx-auto bg-pink-50 text-pink-400 dark:bg-pink-950/40">{% include 'core/partials/icon.html' with name='users' cls='w-7 h-7' %}</p>
+  <p class="font-bold text-lg mt-4">Nenhum match até o momento</p>
+  <p class="text-sm text-slate-500 dark:text-slate-400 mt-1.5 max-w-sm mx-auto leading-relaxed">Favorite mais obras. Quando outro leitor demonstrar interesse pela mesma, ambos serão notificados.</p>
+  <a href="{% url 'livros' %}" class="btn-primary text-sm mt-6">Explorar acervo</a>
+</div>
+{% endfor %}
+</div>
+{% endblock %}

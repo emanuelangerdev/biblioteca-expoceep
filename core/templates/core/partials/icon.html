@@ -1,0 +1,33 @@
+{# Ícone SVG por nome. Uso: {% include 'core/partials/icon.html' with name='book' cls='w-5 h-5' %} #}
+<svg class="{{ cls|default:'w-5 h-5' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+{% if name == 'home' %}<path d="M3 12l9-9 9 9"/><path d="M5 10v10h5v-6h4v6h5V10"/>
+{% elif name == 'book' %}<path d="M12 6.25v13c-1.17-.52-2.83-1-4.5-1-1.75 0-3.34.48-4.5 1.25v-13C4.17 5.72 5.75 5.25 7.5 5.25c1.67 0 3.33.48 4.5 1zM12 6.25c1.17-.52 2.83-1 4.5-1 1.75 0 3.34.48 4.5 1.25v13c-1.17-.77-2.75-1.25-4.5-1.25-1.67 0-3.33.48-4.5 1z"/>
+{% elif name == 'chart' %}<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+{% elif name == 'list' %}<path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+{% elif name == 'heart' %}<path d="M4.32 6.32a4.5 4.5 0 000 6.36L12 20.36l7.68-7.68a4.5 4.5 0 00-6.36-6.36L12 7.64l-1.32-1.32a4.5 4.5 0 00-6.36 0z"/>
+{% elif name == 'heart-solid' %}<path fill="currentColor" stroke="none" d="M11.65 5.33a5.5 5.5 0 00-7.78 7.78L12 21.24l8.13-8.13a5.5 5.5 0 00-7.78-7.78L12 5.68l-.35-.35z"/>
+{% elif name == 'bell' %}<path d="M15 17h5l-1.41-1.41A2 2 0 0118 14.17V11a6 6 0 00-4-5.66V5a2 2 0 10-4 0v.34C7.67 6.17 6 8.39 6 11v3.17c0 .54-.21 1.06-.59 1.44L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+{% elif name == 'user' %}<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+{% elif name == 'users' %}<path d="M12 4.35a4 4 0 110 5.3M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.2M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+{% elif name == 'sun' %}<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.36 6.36l-.7-.7M6.34 6.34l-.7-.7m12.72 0l-.7.7M6.34 17.66l-.7.7M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+{% elif name == 'moon' %}<path d="M20.35 15.35A9 9 0 018.65 3.65a9 9 0 0011.7 11.7z"/>
+{% elif name == 'menu' %}<path d="M4 6h16M4 12h16M4 18h16"/>
+{% elif name == 'x' %}<path d="M6 18L18 6M6 6l12 12"/>
+{% elif name == 'check' %}<path d="M5 13l4 4L19 7"/>
+{% elif name == 'search' %}<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+{% elif name == 'plus' %}<path d="M12 4v16m8-8H4"/>
+{% elif name == 'back' %}<path d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+{% elif name == 'forward' %}<path d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+{% elif name == 'clock' %}<path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+{% elif name == 'calendar' %}<path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+{% elif name == 'renew' %}<path d="M16 9h4V5m0 4l-3-3m3 3a8 8 0 10.6 6M8 15H4v4m0-4l3 3m-3-3a8 8 0 10-.6-6"/>
+{% elif name == 'return' %}<path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v12a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+{% elif name == 'logout' %}<path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/>
+{% elif name == 'phone' %}<path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.95.68l1.5 4.49a1 1 0 01-.5 1.21l-2.26 1.13a11.04 11.04 0 005.52 5.52l1.13-2.26a1 1 0 011.21-.5l4.49 1.5a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.72 21 3 14.28 3 6V5z"/>
+{% elif name == 'alert' %}<path d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+{% elif name == 'info' %}<path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+{% elif name == 'inbox' %}<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/>
+{% elif name == 'star' %}<path d="M11.05 3.5l2.1 4.36 4.77.62-3.5 3.3.9 4.72-4.27-2.3-4.27 2.3.9-4.72-3.5-3.3 4.77-.62 2.1-4.36z"/>
+{% else %}<path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+{% endif %}
+</svg>

@@ -1,0 +1,91 @@
+{% extends 'core/base.html' %}
+{% block title %}Meus empréstimos — BiblioMatch{% endblock %}
+{% block content %}
+<div class="space-y-1.5 max-w-2xl">
+  <span class="eyebrow">Circulação</span>
+  <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Meus empréstimos</h1>
+  <p class="text-sm text-slate-500 dark:text-slate-400">Acompanhe prazos, renove dentro do limite e registre devoluções. Atrasos geram multa simulada de R$ 2,00 por dia.</p>
+</div>
+
+{% if multa_total > 0 %}
+<div class="card mt-6 p-4 sm:p-5 flex gap-3.5 items-start border-red-200 dark:border-red-800/50 bg-red-50/60 dark:bg-red-950/30">
+  <span class="tile w-11 h-11 bg-red-100 text-red-600 dark:bg-red-900/50 dark:text-red-300 shrink-0">{% include 'core/partials/icon.html' with name='alert' cls='w-5 h-5' %}</span>
+  <div class="text-sm"><p class="font-bold text-red-800 dark:text-red-200">Há empréstimos em atraso</p><p class="text-red-700 dark:text-red-300/90 mt-0.5">Multa simulada acumulada: <b>R$ {{ multa_total|floatformat:2 }}</b>. Regularize com a devolução das obras.</p></div>
+</div>
+{% endif %}
+
+<!-- ═══ Em andamento ═══ -->
+<h2 class="font-extrabold text-lg tracking-tight mt-8 mb-3">Em andamento <span class="text-sm font-semibold text-slate-400">({{ ativos|length }})</span></h2>
+<div class="space-y-3 max-w-3xl">
+{% for e in ativos %}
+<article class="card p-4 sm:p-6">
+  <div class="flex items-start gap-3.5">
+    <span class="tile w-11 h-11 shrink-0 {% if e.status == 'atrasado' %}bg-red-100 text-red-600 dark:bg-red-900/50 dark:text-red-300{% else %}bg-emerald-100 text-emerald-600 dark:bg-emerald-900/50 dark:text-emerald-300{% endif %}">{% include 'core/partials/icon.html' with name='book' cls='w-5 h-5' %}</span>
+    <div class="flex-1 min-w-0">
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="{% url 'livro_detalhe' e.livro.pk %}" class="font-bold hover:text-indigo-500 transition truncate">{{ e.livro.titulo }}</a>
+        <span class="badge {% if e.status == 'atrasado' %}bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300{% else %}bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300{% endif %}">{{ e.get_status_display }}</span>
+      </div>
+      <p class="text-xs text-slate-500 dark:text-slate-400 mt-1.5 flex flex-wrap gap-x-4 gap-y-1">
+        <span class="inline-flex items-center gap-1">{% include 'core/partials/icon.html' with name='calendar' cls='w-3.5 h-3.5' %}Retirada em {{ e.data_emprestimo|date:"d/m/Y" }}</span>
+        <span class="inline-flex items-center gap-1 font-semibold {% if e.status == 'atrasado' %}text-red-500{% endif %}">{% include 'core/partials/icon.html' with name='clock' cls='w-3.5 h-3.5' %}Devolução até {{ e.data_prevista|date:"d/m/Y" }}</span>
+        <span class="inline-flex items-center gap-1">{% include 'core/partials/icon.html' with name='renew' cls='w-3.5 h-3.5' %}{{ e.renovacoes }}/{{ max_renovacoes }} renovações</span>
+      </p>
+      <div class="mt-3">
+        <div class="h-1.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+          <div class="h-full rounded-full {% if e.status == 'atrasado' %}bg-red-500{% else %}bg-gradient-to-r from-indigo-500 to-violet-500{% endif %}" style="width:{% widthratio e.progresso 1 100 %}%"></div>
+        </div>
+        <p class="text-[11px] font-semibold mt-1.5 {% if e.status == 'atrasado' %}text-red-500{% else %}text-slate-400{% endif %}">
+          {% if e.status == 'atrasado' %}{{ e.dias_atraso }} dia(s) em atraso · Multa simulada: R$ {{ e.multa_simulada|floatformat:2 }}{% elif e.dias_restantes == 0 %}Vence hoje{% else %}Restam {{ e.dias_restantes }} dia(s){% endif %}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col sm:flex-row gap-2 mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+    {% if e.pode_renovar %}
+    <a href="{% url 'renovar' e.pk %}" class="btn-ghost text-sm flex-1">{% include 'core/partials/icon.html' with name='renew' cls='w-4 h-4' %}Renovar por {{ e.prazo_dias }} dias</a>
+    {% else %}
+    <span class="btn-ghost text-sm flex-1 opacity-50 cursor-not-allowed" title="{% if e.status != 'ativo' %}Disponível apenas para empréstimos ativos{% elif e.renovacoes >= max_renovacoes %}Limite de renovações atingido{% else %}Existe fila de reserva para esta obra{% endif %}">Renovação indisponível</span>
+    {% endif %}
+    <a href="{% url 'devolver' e.pk %}" class="btn-primary text-sm flex-1">{% include 'core/partials/icon.html' with name='return' cls='w-4 h-4' %}Registrar devolução</a>
+  </div>
+</article>
+{% empty %}
+<div class="card p-10 sm:p-14 text-center"><p class="tile w-16 h-16 mx-auto bg-slate-100 dark:bg-slate-800 text-slate-400">{% include 'core/partials/icon.html' with name='book' cls='w-7 h-7' %}</p><p class="font-bold text-lg mt-4">Nenhum empréstimo em andamento</p><p class="text-sm text-slate-500 mt-1">Solicite uma obra diretamente na página do livro.</p><a href="{% url 'livros' %}" class="btn-primary text-sm mt-6">Consultar acervo</a></div>
+{% endfor %}
+</div>
+
+<!-- ═══ Fila de reserva ═══ -->
+<h2 class="font-extrabold text-lg tracking-tight mt-10 mb-3">Fila de reserva <span class="text-sm font-semibold text-slate-400">({{ reservas|length }})</span></h2>
+<div class="space-y-2.5 max-w-3xl">
+{% for r in reservas %}
+<div class="card p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3">
+  <span class="tile w-11 h-11 bg-indigo-100 text-indigo-600 dark:bg-indigo-900/50 dark:text-indigo-300 shrink-0 font-extrabold">{{ r.posicao }}º</span>
+  <div class="flex-1 min-w-0">
+    <a href="{% url 'livro_detalhe' r.livro.pk %}" class="font-bold text-sm hover:text-indigo-500 transition truncate block">{{ r.livro.titulo }}</a>
+    <p class="text-xs text-slate-500 mt-0.5">Reservado em {{ r.criada_em|date:"d/m/Y" }} · Posição {{ r.posicao }} na fila</p>
+  </div>
+  <a href="{% url 'cancelar_reserva' r.pk %}" class="btn-ghost !py-2 text-xs shrink-0">Cancelar</a>
+</div>
+{% empty %}
+<p class="text-sm text-slate-500 card p-5 max-w-3xl">Nenhuma reserva ativa. Quando uma obra estiver indisponível, você poderá entrar na fila pela página do livro.</p>
+{% endfor %}
+</div>
+
+<!-- ═══ Histórico ═══ -->
+<h2 class="font-extrabold text-lg tracking-tight mt-10 mb-3">Histórico de devoluções</h2>
+<div class="card max-w-3xl divide-y divide-slate-100 dark:divide-slate-800/70 overflow-hidden">
+{% for e in historico %}
+<div class="flex items-center gap-3 p-4">
+  <span class="tile w-9 h-9 bg-slate-100 dark:bg-slate-800 text-slate-500 shrink-0">{% include 'core/partials/icon.html' with name='check' cls='w-4 h-4' %}</span>
+  <div class="flex-1 min-w-0">
+    <p class="font-semibold text-sm truncate">{{ e.livro.titulo }}</p>
+    <p class="text-xs text-slate-400">Retirada {{ e.data_emprestimo|date:"d/m/Y" }} · Devolvida {{ e.data_devolucao|date:"d/m/Y" }}{% if e.dias_atraso %} · Atraso de {{ e.dias_atraso }} dia(s){% endif %}</p>
+  </div>
+  <span class="badge bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-300 shrink-0">Devolvido</span>
+</div>
+{% empty %}
+<p class="text-sm text-slate-500 p-6 text-center">Nenhuma devolução registrada.</p>
+{% endfor %}
+</div>
+{% endblock %}

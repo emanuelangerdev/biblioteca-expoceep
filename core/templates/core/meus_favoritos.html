@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+{% block title %}Favoritos — BiblioMatch{% endblock %}
+{% block content %}
+<div class="space-y-1.5">
+  <span class="eyebrow">Estante pessoal</span>
+  <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Meus favoritos</h1>
+  <p class="text-sm text-slate-500 dark:text-slate-400">{{ favs|length }} obra(s) na sua estante.</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 mt-6">
+{% for f in favs %}
+<article class="card card-hover flex flex-col">
+  <a href="{% url 'livro_detalhe' f.livro.pk %}" class="block aspect-[16/10] bg-gradient-to-br from-indigo-500 to-fuchsia-600 overflow-hidden rounded-t-[1.25rem]">{% if f.livro.capa_src %}<img src="{{ f.livro.capa_src }}" alt="Capa de {{ f.livro.titulo }}" loading="lazy" class="w-full h-full object-cover">{% else %}<div class="w-full h-full grid place-items-center text-indigo-100">{% include 'core/partials/icon.html' with name='book' cls='w-10 h-10' %}</div>{% endif %}</a>
+  <div class="p-3.5 flex flex-col flex-1">
+    <a href="{% url 'livro_detalhe' f.livro.pk %}" class="font-bold text-sm leading-snug line-clamp-2 hover:text-indigo-500 transition">{{ f.livro.titulo }}</a>
+    <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-1">{{ f.livro.autor }}</p>
+    <a href="{% url 'favoritar' f.livro.pk %}" class="inline-flex items-center gap-1 text-xs font-bold text-pink-500 hover:text-pink-600 mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800 w-fit">{% include 'core/partials/icon.html' with name='x' cls='w-3.5 h-3.5' %}Remover</a>
+  </div>
+</article>
+{% empty %}
+<div class="card p-10 sm:p-14 text-center col-span-full"><p class="tile w-16 h-16 mx-auto bg-slate-100 dark:bg-slate-800 text-slate-400">{% include 'core/partials/icon.html' with name='heart' cls='w-7 h-7' %}</p><p class="font-bold text-lg mt-4">Estante vazia</p><p class="text-sm text-slate-500 mt-1">Explore o acervo e marque suas obras preferidas.</p><a href="{% url 'livros' %}" class="btn-primary text-sm mt-6">Descobrir obras</a></div>
+{% endfor %}
+</div>
+{% endblock %}

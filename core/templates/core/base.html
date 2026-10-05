@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}BiblioMatch{% endblock %}</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: { extend: {
+    colors: { brand: {50:'#eef2ff',100:'#e0e7ff',200:'#c7d2fe',500:'#6366f1',600:'#4f46e5',700:'#4338ca'} },
+    fontFamily: { sans: ['Inter','system-ui','-apple-system','sans-serif'] },
+    boxShadow: { soft: '0 1px 2px rgb(15 23 42 / .04), 0 8px 24px -12px rgb(15 23 42 / .12)' }
+  }}
+};
+if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  document.documentElement.classList.add('dark');
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  ::selection{background:#6366f1;color:#fff}
+  :focus-visible{outline:2px solid #6366f1;outline-offset:2px;border-radius:.5rem}
+
+  .input{width:100%;border-radius:.8rem;border:1px solid #e2e8f0;padding:.7rem 1rem;font-size:.9rem;background:#fff;color:#0f172a;transition:border-color .15s, box-shadow .15s}
+  .input::placeholder{color:#94a3b8}
+  .input:hover{border-color:#cbd5e1}
+  .input:focus{outline:none;border-color:#6366f1;box-shadow:0 0 0 3px rgb(99 102 241 / .15)}
+  .dark .input{background:#0f172a;border-color:#1e293b;color:#f1f5f9}
+  .dark .input:hover{border-color:#334155}
+  label.flabel{display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#64748b;margin-bottom:.35rem}
+  .dark label.flabel{color:#94a3b8}
+
+  .btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:700;font-size:.875rem;padding:.7rem 1.35rem;border-radius:.9rem;transition:transform .15s, box-shadow .2s, filter .15s;box-shadow:0 8px 20px -8px rgb(99 102 241 / .6)}
+  .btn-primary:hover{transform:translateY(-1px);filter:brightness(1.05)}
+  .btn-primary:active{transform:translateY(0)}
+  .btn-ghost{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;border:1px solid #e2e8f0;background:#fff;padding:.65rem 1.15rem;border-radius:.9rem;font-weight:600;font-size:.875rem;color:#334155;transition:.15s}
+  .btn-ghost:hover{border-color:#6366f1;color:#4f46e5;background:#eef2ff}
+  .dark .btn-ghost{background:#0f172a;border-color:#1e293b;color:#e2e8f0}
+  .dark .btn-ghost:hover{border-color:#6366f1;color:#c7d2fe;background:#1e1b4b}
+  .icon-btn{display:inline-flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;border-radius:.9rem;border:1px solid #e2e8f0;background:#fff;color:#475569;transition:.15s}
+  .icon-btn:hover{border-color:#6366f1;color:#4f46e5;transform:translateY(-1px)}
+  .dark .icon-btn{background:#0f172a;border-color:#1e293b;color:#cbd5e1}
+
+  .card{background:#fff;border:1px solid #eef2f7;border-radius:1.25rem;box-shadow:0 1px 2px rgb(15 23 42 / .04);transition:transform .2s, box-shadow .25s, border-color .2s}
+  .dark .card{background:#0b1220;border-color:#162033;box-shadow:none}
+  .card-hover:hover{transform:translateY(-3px);box-shadow:0 20px 40px -18px rgb(99 102 241 / .35);border-color:#e0e7ff}
+  .dark .card-hover:hover{border-color:#312e81}
+  .badge{display:inline-flex;align-items:center;gap:.25rem;font-size:.7rem;font-weight:700;padding:.3rem .65rem;border-radius:9999px;line-height:1.4;white-space:nowrap}
+
+  .eyebrow{display:inline-flex;align-items:center;gap:.35rem;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#4f46e5;background:#eef2ff;padding:.35rem .75rem;border-radius:9999px}
+  .dark .eyebrow{background:#1e1b4b;color:#c7d2fe}
+
+  .nav-link{display:inline-flex;align-items:center;gap:.45rem;position:relative;padding:.55rem .85rem;border-radius:.7rem;transition:.15s;color:#475569}
+  .nav-link:hover{background:#f1f5f9;color:#0f172a}
+  .dark .nav-link{color:#94a3b8}
+  .dark .nav-link:hover{background:#162033;color:#f1f5f9}
+  .nav-link.active{background:#eef2ff;color:#4f46e5;font-weight:700}
+  .dark .nav-link.active{background:#1e1b4b;color:#c7d2fe}
+  .tab-item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;font-weight:600;color:#94a3b8;padding:.5rem 0 .35rem;flex:1;border-radius:.75rem}
+  .tab-item.active{color:#4f46e5}
+  .dark .tab-item.active{color:#a5b4fc}
+
+  @keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+  .toast{animation:slideDown .25s ease-out}
+
+  .avatar{display:inline-flex;align-items:center;justify-content:center;border-radius:9999px;font-weight:800;color:#fff;background:linear-gradient(135deg,#6366f1,#a855f7);flex-shrink:0}
+  .tile{display:inline-flex;align-items:center;justify-content:center;border-radius:.9rem;flex-shrink:0}
+</style>
+{% block head %}{% endblock %}
+</head>
+<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors">
+
+<!-- ══════════ NAVBAR ══════════ -->
+<header class="sticky top-0 z-40 backdrop-blur-xl bg-white/85 dark:bg-slate-950/85 border-b border-slate-200/70 dark:border-slate-800/70">
+<nav class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16 gap-2">
+  <a href="{% url 'home' %}" class="flex items-center gap-2.5 font-extrabold text-lg tracking-tight shrink-0">
+    <span class="w-9 h-9 rounded-xl grid place-items-center text-white shadow-soft" style="background:linear-gradient(135deg,#6366f1,#a855f7,#ec4899)">{% include 'core/partials/icon.html' with name='book' cls='w-5 h-5' %}</span>
+    <span>Biblio<span class="text-indigo-500">Match</span></span>
+  </a>
+  {% with active=request.resolver_match.url_name %}
+  <div class="hidden md:flex items-center gap-0.5 text-sm font-medium">
+    <a href="{% url 'livros' %}" class="nav-link {% if active == 'livros' or active == 'livro_detalhe' %}active{% endif %}">Acervo</a>
+    <a href="{% url 'ranking' %}" class="nav-link {% if active == 'ranking' %}active{% endif %}">Ranking</a>
+    <a href="{% url 'colecoes' %}" class="nav-link {% if active == 'colecoes' or active == 'colecao_detalhe' %}active{% endif %}">Listas</a>
+    {% if user.is_authenticated %}
+    <a href="{% url 'matches' %}" class="nav-link {% if active == 'matches' %}active{% endif %}">Matches</a>
+    <a href="{% url 'meus_emprestimos' %}" class="nav-link {% if active == 'meus_emprestimos' %}active{% endif %}">Empréstimos</a>
+    {% endif %}
+  </div>
+  {% endwith %}
+  <div class="flex items-center gap-2">
+    <button onclick="toggleTheme()" class="icon-btn" title="Alternar tema claro/escuro" aria-label="Alternar tema">
+      <span class="dark:hidden">{% include 'core/partials/icon.html' with name='moon' cls='w-5 h-5' %}</span><span class="hidden dark:inline">{% include 'core/partials/icon.html' with name='sun' cls='w-5 h-5' %}</span>
+    </button>
+    {% if user.is_authenticated %}
+    <a href="{% url 'notificacoes' %}" class="icon-btn relative" title="Notificações" aria-label="Notificações">{% include 'core/partials/icon.html' with name='bell' cls='w-5 h-5' %}
+      {% if notificacoes_nao_lidas %}<span class="absolute -top-1.5 -right-1.5 min-w-[1.3rem] h-5 px-1 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 text-white text-[11px] font-bold grid place-items-center shadow">{{ notificacoes_nao_lidas }}</span>{% endif %}
+    </a>
+    <a href="{% url 'perfil' %}" class="hidden sm:flex items-center gap-2 pl-1 pr-3 py-1 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-indigo-400 transition" title="Meu perfil">
+      <span class="avatar w-8 h-8 text-sm">{{ user.username|first|upper }}</span>
+      <span class="text-sm font-semibold max-w-[7rem] truncate">{{ user.username }}</span>
+    </a>
+    {% else %}
+    <a href="{% url 'login' %}" class="hidden sm:inline-block text-sm font-semibold px-3 py-2 rounded-lg hover:text-indigo-600">Entrar</a>
+    <a href="{% url 'cadastro' %}" class="btn-primary !py-2.5 text-sm">Criar conta</a>
+    {% endif %}
+    <button onclick="document.getElementById('mmenu').classList.toggle('hidden')" class="md:hidden icon-btn" aria-label="Abrir menu">{% include 'core/partials/icon.html' with name='menu' cls='w-5 h-5' %}</button>
+  </div>
+</nav>
+<div id="mmenu" class="hidden md:hidden border-t border-slate-200/70 dark:border-slate-800/70 px-4 py-3 space-y-0.5 text-sm font-medium bg-white dark:bg-slate-950">
+  {% with active=request.resolver_match.url_name %}
+  <a href="{% url 'livros' %}" class="nav-link block {% if active == 'livros' %}active{% endif %}">Acervo</a>
+  <a href="{% url 'ranking' %}" class="nav-link block {% if active == 'ranking' %}active{% endif %}">Ranking</a>
+  <a href="{% url 'colecoes' %}" class="nav-link block {% if active == 'colecoes' %}active{% endif %}">Listas de recomendação</a>
+  {% if user.is_authenticated %}
+  <a href="{% url 'matches' %}" class="nav-link block {% if active == 'matches' %}active{% endif %}">Meus matches</a>
+  <a href="{% url 'meus_favoritos' %}" class="nav-link block {% if active == 'meus_favoritos' %}active{% endif %}">Favoritos</a>
+  <a href="{% url 'meus_emprestimos' %}" class="nav-link block {% if active == 'meus_emprestimos' %}active{% endif %}">Empréstimos</a>
+  <a href="{% url 'perfil' %}" class="nav-link block {% if active == 'perfil' %}active{% endif %}">{{ user.username }} — Perfil</a>
+  {% else %}
+  <a href="{% url 'login' %}" class="nav-link block">Entrar</a>
+  {% endif %}
+  {% endwith %}
+</div>
+</header>
+
+<!-- ══════════ MENSAGENS ══════════ -->
+{% if messages %}
+<div class="max-w-7xl mx-auto w-full px-4 sm:px-6 pt-4 space-y-2">
+  {% for m in messages %}
+  <div class="toast flex items-start gap-3 px-4 py-3 rounded-2xl text-sm font-medium shadow-soft border {% if m.tags == 'error' %}bg-red-50 border-red-200 text-red-800 dark:bg-red-950/60 dark:border-red-800/50 dark:text-red-200{% elif m.tags == 'info' %}bg-blue-50 border-blue-200 text-blue-800 dark:bg-blue-950/60 dark:border-blue-800/50 dark:text-blue-200{% else %}bg-emerald-50 border-emerald-200 text-emerald-800 dark:bg-emerald-950/60 dark:border-emerald-800/50 dark:text-emerald-200{% endif %}">
+    <span class="mt-0.5 shrink-0">{% if m.tags == 'error' %}{% include 'core/partials/icon.html' with name='alert' cls='w-5 h-5' %}{% elif m.tags == 'info' %}{% include 'core/partials/icon.html' with name='info' cls='w-5 h-5' %}{% else %}{% include 'core/partials/icon.html' with name='check' cls='w-5 h-5' %}{% endif %}</span>
+    <span class="flex-1 leading-relaxed">{{ m }}</span>
+    <button onclick="this.parentElement.remove()" class="opacity-50 hover:opacity-100 font-bold shrink-0" aria-label="Fechar notificação">{% include 'core/partials/icon.html' with name='x' cls='w-4 h-4' %}</button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10 pb-24 md:pb-12">
+{% block content %}{% endblock %}
+</main>
+
+<!-- ══════════ BARRA DE NAVEGAÇÃO MOBILE ══════════ -->
+<nav class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 px-2 pb-[env(safe-area-inset-bottom)]" aria-label="Navegação principal">
+  {% with active=request.resolver_match.url_name %}
+  <div class="flex items-stretch">
+    <a href="{% url 'home' %}" class="tab-item {% if active == 'home' %}active{% endif %}">{% include 'core/partials/icon.html' with name='home' cls='w-6 h-6' %}Início</a>
+    <a href="{% url 'livros' %}" class="tab-item {% if active == 'livros' or active == 'livro_detalhe' %}active{% endif %}">{% include 'core/partials/icon.html' with name='book' cls='w-6 h-6' %}Acervo</a>
+    <a href="{% url 'ranking' %}" class="tab-item {% if active == 'ranking' %}active{% endif %}">{% include 'core/partials/icon.html' with name='chart' cls='w-6 h-6' %}Ranking</a>
+    {% if user.is_authenticated %}
+    <a href="{% url 'matches' %}" class="tab-item relative {% if active == 'matches' %}active{% endif %}">{% include 'core/partials/icon.html' with name='users' cls='w-6 h-6' %}Matches{% if notificacoes_nao_lidas %}<span class="absolute top-1 right-1/2 translate-x-4 w-2.5 h-2.5 rounded-full bg-pink-500"></span>{% endif %}</a>
+    <a href="{% url 'perfil' %}" class="tab-item {% if active == 'perfil' %}active{% endif %}">{% include 'core/partials/icon.html' with name='user' cls='w-6 h-6' %}Perfil</a>
+    {% else %}
+    <a href="{% url 'colecoes' %}" class="tab-item {% if active == 'colecoes' %}active{% endif %}">{% include 'core/partials/icon.html' with name='list' cls='w-6 h-6' %}Listas</a>
+    <a href="{% url 'login' %}" class="tab-item {% if active == 'login' %}active{% endif %}">{% include 'core/partials/icon.html' with name='forward' cls='w-6 h-6' %}Entrar</a>
+    {% endif %}
+  </div>
+  {% endwith %}
+</nav>
+
+<!-- ══════════ RODAPÉ ══════════ -->
+<footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 mt-4">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-sm">
+  <div class="space-y-2">
+    <p class="flex items-center gap-2 font-extrabold text-lg"><span class="w-8 h-8 rounded-lg grid place-items-center text-white" style="background:linear-gradient(135deg,#6366f1,#a855f7,#ec4899)">{% include 'core/partials/icon.html' with name='book' cls='w-4 h-4' %}</span>Biblio<span class="text-indigo-500 -ml-2">Match</span></p>
+    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Sistema de biblioteca social: favoritos, match literário, ranking e empréstimos.</p>
+  </div>
+  <div><p class="font-bold mb-3 text-xs uppercase tracking-wider text-slate-400">Explorar</p><div class="flex flex-col gap-2 text-slate-600 dark:text-slate-300"><a class="hover:text-indigo-500 w-fit" href="{% url 'livros' %}">Acervo</a><a class="hover:text-indigo-500 w-fit" href="{% url 'ranking' %}">Ranking</a><a class="hover:text-indigo-500 w-fit" href="{% url 'colecoes' %}">Listas de recomendação</a></div></div>
+  <div><p class="font-bold mb-3 text-xs uppercase tracking-wider text-slate-400">Conta</p><div class="flex flex-col gap-2 text-slate-600 dark:text-slate-300">{% if user.is_authenticated %}<a class="hover:text-indigo-500 w-fit" href="{% url 'matches' %}">Meus matches</a><a class="hover:text-indigo-500 w-fit" href="{% url 'meus_emprestimos' %}">Empréstimos</a><a class="hover:text-indigo-500 w-fit" href="{% url 'perfil' %}">Perfil</a>{% else %}<a class="hover:text-indigo-500 w-fit" href="{% url 'login' %}">Entrar</a><a class="hover:text-indigo-500 w-fit" href="{% url 'cadastro' %}">Criar conta</a>{% endif %}</div></div>
+  <div><p class="font-bold mb-3 text-xs uppercase tracking-wider text-slate-400">Apresentação</p><ol class="text-slate-500 dark:text-slate-400 space-y-1.5 list-none"><li><b class="text-slate-700 dark:text-slate-200">1.</b> Crie uma conta</li><li><b class="text-slate-700 dark:text-slate-200">2.</b> Favorite obras e gere um match</li><li><b class="text-slate-700 dark:text-slate-200">3.</b> Contate via WhatsApp</li><li><b class="text-slate-700 dark:text-slate-200">4.</b> Simule empréstimo e devolução</li></ol></div>
+</div>
+</footer>
+
+<script>
+function toggleTheme(){
+  const h = document.documentElement;
+  if(h.classList.contains('dark')){ h.classList.remove('dark'); localStorage.theme='light'; }
+  else { h.classList.add('dark'); localStorage.theme='dark'; }
+}
+setTimeout(()=>document.querySelectorAll('.toast').forEach(t=>{t.style.transition='opacity .4s';t.style.opacity='0';setTimeout(()=>t.remove(),400)}),6000);
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %}
+{% block title %}{{ c.titulo }} — BiblioMatch{% endblock %}
+{% block content %}
+<a href="{% url 'colecoes' %}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-indigo-500 transition">{% include 'core/partials/icon.html' with name='back' cls='w-4 h-4' %}Todas as listas</a>
+<div class="rounded-[1.75rem] p-6 sm:p-10 mt-4 text-white relative overflow-hidden" style="background:linear-gradient(135deg,#4f46e5,#9333ea)">
+  <div class="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-white/10 blur-2xl pointer-events-none"></div>
+  <div class="relative">
+    <span class="badge bg-white/20 text-white backdrop-blur">{{ c.area }}</span>
+    {% if c.destaque %}<span class="badge bg-yellow-400 text-yellow-950">Destaque da equipe</span>{% endif %}
+    <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-3">{{ c.titulo }}</h1>
+    <p class="text-white/85 text-sm mt-2 max-w-xl leading-relaxed">{{ c.descricao }}</p>
+    <p class="text-xs mt-4 text-white/70 font-semibold">{{ c.livros.count }} obra(s) · Organização: {{ c.criada_por|default:"equipe" }}</p>
+  </div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mt-5">
+{% for l in c.livros.all %}
+<div class="card card-hover p-4 flex items-start gap-3">
+  <span class="w-11 h-14 rounded-lg shrink-0 grid place-items-center bg-gradient-to-br from-indigo-500 to-fuchsia-600 text-indigo-100 overflow-hidden">{% if l.capa_src %}<img src="{{ l.capa_src }}" alt="" loading="lazy" class="w-full h-full object-cover">{% else %}{% include 'core/partials/icon.html' with name='book' cls='w-5 h-5' %}{% endif %}</span>
+  <div class="min-w-0 flex-1">
+    <a href="{% url 'livro_detalhe' l.pk %}" class="font-bold text-sm leading-snug hover:text-indigo-500 transition line-clamp-2">{{ l.titulo }}</a>
+    <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">{{ l.autor }}</p>
+    {% if user.is_authenticated %}<a href="{% url 'favoritar' l.pk %}" class="inline-flex items-center gap-1 text-xs font-bold mt-2 {% if l.pk in fav_ids %}text-pink-500{% else %}text-indigo-500 hover:text-indigo-600{% endif %}">{% if l.pk in fav_ids %}{% include 'core/partials/icon.html' with name='heart-solid' cls='w-3.5 h-3.5' %}Favoritado{% else %}{% include 'core/partials/icon.html' with name='heart' cls='w-3.5 h-3.5' %}Favoritar{% endif %}</a>{% endif %}
+  </div>
+</div>
+{% empty %}
+<div class="card p-10 col-span-full text-center text-sm text-slate-500">Nenhuma obra vinculada a esta lista.</div>
+{% endfor %}
+</div>
+{% endblock %}
