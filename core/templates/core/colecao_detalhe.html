@@ -1,29 +1,39 @@
 {% extends 'core/base.html' %}
 {% block title %}{{ c.titulo }} — BiblioMatch{% endblock %}
 {% block content %}
-<a href="{% url 'colecoes' %}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-indigo-500 transition">{% include 'core/partials/icon.html' with name='back' cls='w-4 h-4' %}Todas as listas</a>
-<div class="rounded-[1.75rem] p-6 sm:p-10 mt-4 text-white relative overflow-hidden" style="background:linear-gradient(135deg,#4f46e5,#9333ea)">
-  <div class="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-white/10 blur-2xl pointer-events-none"></div>
-  <div class="relative">
-    <span class="badge bg-white/20 text-white backdrop-blur">{{ c.area }}</span>
-    {% if c.destaque %}<span class="badge bg-yellow-400 text-yellow-950">Destaque da equipe</span>{% endif %}
-    <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-3">{{ c.titulo }}</h1>
-    <p class="text-white/85 text-sm mt-2 max-w-xl leading-relaxed">{{ c.descricao }}</p>
-    <p class="text-xs mt-4 text-white/70 font-semibold">{{ c.livros.count }} obra(s) · Organização: {{ c.criada_por|default:"equipe" }}</p>
+<a href="{% url 'colecoes' %}" class="inline-flex items-center gap-1.5 text-sm font-bold text-slate-500 hover:text-[#a83e5c] transition">{% include 'core/partials/icon.html' with name='back' cls='w-4 h-4' %}Todas as listas</a>
+
+<section class="relative rounded-lg border-2 border-[#4d3a44] overflow-hidden shadow-[4px_4px_0_#4d3a44] mt-4" style="background:#7d9cbf">
+  <div class="flex items-center justify-between gap-2 px-4 sm:px-6 py-2 border-b-2 border-[#4d3a44]" style="background:#f2d98d">
+    <p class="font-display font-bold text-[13px] sm:text-sm uppercase tracking-[.1em] text-[#4d3a44]"><span class="anim-blink">●</span> a lista ★ aberta!</p>
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
   </div>
-</div>
+  <div class="p-5 sm:p-8 text-white relative">
+    <span class="sparkle absolute top-5 right-8 text-[#f2d98d] text-lg" style="animation-delay:.7s" aria-hidden="true">★</span>
+    <span class="sparkle absolute bottom-5 right-1/3 text-white text-sm" style="animation-delay:1.6s" aria-hidden="true">☆</span>
+    <div class="flex flex-wrap gap-2 relative">
+      <span class="sticker bg-white text-[#a83e5c] text-[11px] px-3 py-1.5">☆ {{ c.area }}</span>
+      {% if c.destaque %}<span class="sticker bg-[#f2d98d] text-[#4d3a44] text-[11px] px-3 py-1.5 anim-bounce">★ destaque da equipe</span>{% endif %}
+    </div>
+    <h1 class="hero-sober text-2xl sm:text-4xl mt-3" style="text-shadow:2px 2px 0 #4d3a44">{{ c.titulo }}</h1>
+    <p class="text-white/90 text-sm mt-2 max-w-xl leading-relaxed font-semibold">{{ c.descricao }}</p>
+    <p class="text-xs mt-4 text-white/80 font-bold">{{ c.livros.count }} obra(s) · Organização: {{ c.criada_por|default:"equipe" }}</p>
+  </div>
+</section>
+
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mt-5">
 {% for l in c.livros.all %}
 <div class="card card-hover p-4 flex items-start gap-3">
-  <span class="w-11 h-14 rounded-lg shrink-0 grid place-items-center bg-gradient-to-br from-indigo-500 to-fuchsia-600 text-indigo-100 overflow-hidden">{% if l.capa_src %}<img src="{{ l.capa_src }}" alt="" loading="lazy" class="w-full h-full object-cover">{% else %}{% include 'core/partials/icon.html' with name='book' cls='w-5 h-5' %}{% endif %}</span>
+  <span class="tile w-9 h-14 shrink-0 font-display font-bold text-sm bg-[#f2d98d] text-[#4d3a44]">{{ forloop.counter }}</span>
+  <span class="w-11 h-14 rounded-sm shrink-0 grid place-items-center bg-[#d9c6b8] text-[#7a6470] border-2 border-[#4d3a44] overflow-hidden">{% if l.capa_src %}<img src="{{ l.capa_src }}" alt="" loading="lazy" class="w-full h-full object-cover">{% else %}{% include 'core/partials/icon.html' with name='book' cls='w-5 h-5' %}{% endif %}</span>
   <div class="min-w-0 flex-1">
-    <a href="{% url 'livro_detalhe' l.pk %}" class="font-bold text-sm leading-snug hover:text-indigo-500 transition line-clamp-2">{{ l.titulo }}</a>
-    <p class="text-xs text-slate-500 truncate mt-0.5">{{ l.autor }}</p>
-    {% if user.is_authenticated %}<a href="{% url 'favoritar' l.pk %}" class="inline-flex items-center gap-1 text-xs font-bold mt-2 {% if l.pk in fav_ids %}text-pink-500{% else %}text-indigo-500 hover:text-indigo-600{% endif %}">{% if l.pk in fav_ids %}{% include 'core/partials/icon.html' with name='heart-solid' cls='w-3.5 h-3.5' %}Favoritado{% else %}{% include 'core/partials/icon.html' with name='heart' cls='w-3.5 h-3.5' %}Favoritar{% endif %}</a>{% endif %}
+    <a href="{% url 'livro_detalhe' l.pk %}" class="font-display font-semibold text-sm leading-snug hover:text-[#a83e5c] transition line-clamp-2 text-[#4d3a44]">{{ l.titulo }}</a>
+    <p class="text-xs font-bold text-slate-500 truncate mt-0.5">{{ l.autor }}</p>
+    {% if user.is_authenticated %}<a href="{% url 'favoritar' l.pk %}" class="inline-flex items-center gap-1 text-xs font-extrabold mt-2 {% if l.pk in fav_ids %}text-[#a83e5c]{% else %}text-[#6d8cb3] hover:text-[#a83e5c]{% endif %}">{% if l.pk in fav_ids %}{% include 'core/partials/icon.html' with name='heart-solid' cls='w-3.5 h-3.5' %}Favoritado ♥{% else %}{% include 'core/partials/icon.html' with name='heart' cls='w-3.5 h-3.5' %}Favoritar{% endif %}</a>{% endif %}
   </div>
 </div>
 {% empty %}
-<div class="card p-10 col-span-full text-center text-sm text-slate-500">Nenhuma obra vinculada a esta lista.</div>
+<div class="card p-10 col-span-full text-center"><p class="tile w-14 h-14 mx-auto bg-[#e8e0ee] text-[#6b5b7a] floaty">{% include 'core/partials/icon.html' with name='book' cls='w-6 h-6' %}</p><p class="font-display font-semibold mt-4 text-[#4d3a44]">Nenhuma obra vinculada</p><p class="text-sm font-semibold text-slate-500 mt-1">Esta lista ainda está vazia.</p></div>
 {% endfor %}
 </div>
 {% endblock %}
