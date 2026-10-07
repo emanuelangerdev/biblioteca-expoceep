@@ -3,22 +3,22 @@
 {% block content %}
 <div class="card p-6 sm:p-8">
   <div class="flex flex-col sm:flex-row gap-5 items-center">
-    <span class="avatar w-20 h-20 rounded-3xl text-3xl shrink-0 shadow-soft">{{ user.username|first|upper }}</span>
+    <span class="avatar w-20 h-20 text-3xl shrink-0">{{ user.username|first|upper }}</span>
     <div class="flex-1 text-center sm:text-left min-w-0">
       <h1 class="text-2xl font-extrabold tracking-tight truncate">{{ user.username }}</h1>
-      <p class="text-sm text-slate-500 dark:text-slate-400 mt-0.5">{% if user.profile.telefone %}WhatsApp: {{ user.profile.telefone }}{% else %}Telefone não cadastrado{% endif %}</p>
+      <p class="text-sm text-slate-500 mt-0.5">{% if user.profile.telefone %}WhatsApp: {{ user.profile.telefone }}{% else %}Telefone não cadastrado{% endif %}</p>
       <div class="flex flex-wrap justify-center sm:justify-start gap-2 mt-4">
-        <a href="{% url 'meus_favoritos' %}" class="badge bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-300 !py-2 !px-3.5 hover:bg-pink-200 dark:hover:bg-pink-900/60 transition">{{ n_fav }} favoritos</a>
-        <a href="{% url 'matches' %}" class="badge bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300 !py-2 !px-3.5 hover:bg-indigo-200 dark:hover:bg-indigo-900/70 transition">{{ n_matches }} matches</a>
-        <a href="{% url 'meus_emprestimos' %}" class="badge bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 !py-2 !px-3.5 hover:bg-emerald-200 transition">{{ n_emps }} empréstimos ativos</a>
+        <a href="{% url 'meus_favoritos' %}" class="badge bg-pink-100 text-pink-700 !py-2 !px-3.5 hover:bg-pink-200 transition">{{ n_fav }} favoritos</a>
+        <a href="{% url 'matches' %}" class="badge bg-indigo-100 text-indigo-700 !py-2 !px-3.5 hover:bg-indigo-200 transition">{{ n_matches }} matches</a>
+        <a href="{% url 'meus_emprestimos' %}" class="badge bg-emerald-100 text-emerald-700 !py-2 !px-3.5 hover:bg-emerald-200 transition">{{ n_emps }} empréstimos ativos</a>
       </div>
     </div>
     <form method="post" action="{% url 'logout' %}" class="shrink-0">{% csrf_token %}<button class="btn-ghost text-sm inline-flex items-center gap-1.5">{% include 'core/partials/icon.html' with name='logout' cls='w-4 h-4' %}Sair</button></form>
   </div>
 
-  <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800">
+  <div class="mt-6 pt-6 border-t border-slate-100">
     <h2 class="font-bold">Contato para matches</h2>
-    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Leitores que combinarem match com você verão um botão de contato vinculado a este número de WhatsApp.</p>
+    <p class="text-xs text-slate-500 mt-1 leading-relaxed">Leitores que combinarem match com você verão um botão de contato vinculado a este número de WhatsApp.</p>
     <form method="post" class="flex flex-col sm:flex-row gap-2.5 mt-3.5">{% csrf_token %}
       <div class="flex-1">{{ form.telefone }}</div>
       <button class="btn-primary text-sm justify-center shrink-0">Salvar número</button>
@@ -30,13 +30,13 @@
   <div class="card p-5 sm:p-6">
     <div class="flex items-center justify-between"><h2 class="font-bold">Favoritos recentes</h2><a href="{% url 'meus_favoritos' %}" class="text-xs font-bold text-indigo-500">Ver todos</a></div>
     <div class="mt-3 space-y-1 text-sm">
-      {% for f in favs %}<a href="{% url 'livro_detalhe' f.livro.pk %}" class="flex items-center gap-2.5 py-2 border-b border-slate-50 dark:border-slate-800/60 last:border-0 hover:text-indigo-500 transition"><span class="text-slate-400">{% include 'core/partials/icon.html' with name='book' cls='w-4 h-4' %}</span><span class="truncate">{{ f.livro.titulo }} <span class="text-slate-400 font-normal">— {{ f.livro.autor }}</span></span></a>{% empty %}<p class="text-slate-500 text-sm py-2">Nenhum favorito registrado.</p>{% endfor %}
+      {% for f in favs %}<a href="{% url 'livro_detalhe' f.livro.pk %}" class="flex items-center gap-2.5 py-2 border-b border-slate-50 last:border-0 hover:text-indigo-500 transition"><span class="text-slate-400">{% include 'core/partials/icon.html' with name='book' cls='w-4 h-4' %}</span><span class="truncate">{{ f.livro.titulo }} <span class="text-slate-400 font-normal">— {{ f.livro.autor }}</span></span></a>{% empty %}<p class="text-slate-500 text-sm py-2">Nenhum favorito registrado.</p>{% endfor %}
     </div>
   </div>
   <div class="card p-5 sm:p-6">
     <div class="flex items-center justify-between"><h2 class="font-bold">Empréstimos recentes</h2><a href="{% url 'meus_emprestimos' %}" class="text-xs font-bold text-indigo-500">Ver todos</a></div>
     <div class="mt-3 space-y-1 text-sm">
-      {% for e in emps %}<div class="flex items-center gap-2.5 py-2 border-b border-slate-50 dark:border-slate-800/60 last:border-0"><span class="text-slate-400">{% include 'core/partials/icon.html' with name='return' cls='w-4 h-4' %}</span><span class="truncate flex-1">{{ e.livro.titulo }}</span><span class="badge bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-300">{{ e.get_status_display }}</span></div>{% empty %}<p class="text-slate-500 text-sm py-2">Nenhum empréstimo registrado.</p>{% endfor %}
+      {% for e in emps %}<div class="flex items-center gap-2.5 py-2 border-b border-slate-50 last:border-0"><span class="text-slate-400">{% include 'core/partials/icon.html' with name='return' cls='w-4 h-4' %}</span><span class="truncate flex-1">{{ e.livro.titulo }}</span><span class="badge bg-slate-100 text-slate-500">{{ e.get_status_display }}</span></div>{% empty %}<p class="text-slate-500 text-sm py-2">Nenhum empréstimo registrado.</p>{% endfor %}
     </div>
   </div>
 </div>

@@ -22,13 +22,14 @@ Sistema **não-rígido de propósito** (modo feira): senha simples liberada, qua
 ```bash
 # 1. Criar e ativar o ambiente virtual
 python3 -m venv venv
-source venv/bin/activate   # Windows: venv\Scripts\activate
+source venv/bin/activate   # Windows: venv\Scripts\activate.bat
 
 # 2. Instalar dependências e preparar o banco
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py seed_demo   # cria 12 livros, 3 listas, usuários ana/123 bruno/123 carla/123 + matches
-python manage.py runserver
+pip install -r requirements.txt   # instala dependencias
+python manage.py migrate   # roda migrações do banco
+python manage.py seed_acervo   # cria 30 livros e 3 listas
+python manage.py createsuperuser   # cria admin
+python manage.py runserver   # inicia o servidor
 ```
 
 Acesse `http://127.0.0.1:8000` 🎤

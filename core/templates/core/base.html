@@ -7,85 +7,187 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config = {
-  darkMode: 'class',
   theme: { extend: {
-    colors: { brand: {50:'#eef2ff',100:'#e0e7ff',200:'#c7d2fe',500:'#6366f1',600:'#4f46e5',700:'#4338ca'} },
-    fontFamily: { sans: ['Inter','system-ui','-apple-system','sans-serif'] },
-    boxShadow: { soft: '0 1px 2px rgb(15 23 42 / .04), 0 8px 24px -12px rgb(15 23 42 / .12)' }
+    colors: {
+      ink: '#4d3a44',
+      paper: '#fdf6ec',
+      night: '#2e2a38',
+      panel: '#3a3348',
+      bblu: '#6d8cb3',
+      hpink: '#c9506e',
+      suny: '#e3b64f',
+      tang: '#c96a4a',
+      minty: '#7fb069',
+    },
+    fontFamily: {
+      display: ['Fredoka','Nunito','system-ui','sans-serif'],
+      sans: ['Nunito','system-ui','-apple-system','sans-serif'],
+      hand: ['Caveat','cursive'],
+    },
+    boxShadow: { pop: '3px 3px 0 #4d3a44', popsm: '2px 2px 0 #4d3a44', poplg: '5px 5px 0 rgba(70,50,60,.3)' }
   }}
 };
-if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-  document.documentElement.classList.add('dark');
-}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap">
 <style>
+  :root{ --ink:#4d3a44; --pink:#c9506e; --blue:#6d8cb3; --yellow:#e3b64f; }
   html{scroll-behavior:smooth}
-  body{font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
-  ::selection{background:#6366f1;color:#fff}
-  :focus-visible{outline:2px solid #6366f1;outline-offset:2px;border-radius:.5rem}
+  body{font-family:'Nunito',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  h1,h2,.font-display{font-family:'Fredoka','Nunito',sans-serif;letter-spacing:-.01em}
+  /* título sóbrio anos 2000: Verdana/Trebuchet, nada redondo */
+  .hero-sober{font-family:Verdana,'Trebuchet MS','Segoe UI',Geneva,sans-serif;font-weight:800;letter-spacing:-.02em}
+  .font-hand{font-family:'Caveat',cursive}
+  ::selection{background:#e8a0b4;color:#4d3a44}
+  :focus-visible{outline:2px solid #c9506e;outline-offset:2px;border-radius:.3rem}
 
-  .input{width:100%;border-radius:.8rem;border:1px solid #e2e8f0;padding:.7rem 1rem;font-size:.9rem;background:#fff;color:#0f172a;transition:border-color .15s, box-shadow .15s}
-  .input::placeholder{color:#94a3b8}
-  .input:hover{border-color:#cbd5e1}
-  .input:focus{outline:none;border-color:#6366f1;box-shadow:0 0 0 3px rgb(99 102 241 / .15)}
-  .dark .input{background:#0f172a;border-color:#1e293b;color:#f1f5f9}
-  .dark .input:hover{border-color:#334155}
-  label.flabel{display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#64748b;margin-bottom:.35rem}
-  .dark label.flabel{color:#94a3b8}
+  /* ── fundo anos 2000: azul acinzentado suave w/ estrelinhas apagadas ── */
+  body.starry{
+    background-color:#8ea6c4;
+    background-image:
+      radial-gradient(1.4px 1.4px at 22px 32px, #ffffffcc 55%, transparent 56%),
+      radial-gradient(1px 1px at 130px 90px, #f6df8ecc 60%, transparent 61%),
+      radial-gradient(1.4px 1.4px at 210px 40px, #ffffff99 55%, transparent 56%),
+      radial-gradient(1px 1px at 320px 120px, #e8a0b488 60%, transparent 61%),
+      linear-gradient(180deg,#93aecb 0%,#7d9cbf 60%,#6d8cb3 100%);
+    background-size:480px 200px,480px 200px,480px 200px,480px 200px,cover;
+  }
+  /* barra superior retrô — azul orkut, brilho contido */
+  .glossy-bar{
+    background:linear-gradient(to bottom,#9db8d6 0%,#7d9cbf 50%,#6d8cb3 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 2px 6px rgba(60,60,80,.25);
+  }
+  .glossy-btn{
+    background:linear-gradient(to bottom,#8ba7c9 0%,#6d8cb3 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 1px 2px rgba(0,0,0,.25);
+    border:1px solid #4a6484;text-shadow:0 1px 1px rgba(0,0,0,.3);
+  }
+  .glossy-btn:hover{filter:brightness(1.05)}
 
-  .btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:700;font-size:.875rem;padding:.7rem 1.35rem;border-radius:.9rem;transition:transform .15s, box-shadow .2s, filter .15s;box-shadow:0 8px 20px -8px rgb(99 102 241 / .6)}
-  .btn-primary:hover{transform:translateY(-1px);filter:brightness(1.05)}
-  .btn-primary:active{transform:translateY(0)}
-  .btn-ghost{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;border:1px solid #e2e8f0;background:#fff;padding:.65rem 1.15rem;border-radius:.9rem;font-weight:600;font-size:.875rem;color:#334155;transition:.15s}
-  .btn-ghost:hover{border-color:#6366f1;color:#4f46e5;background:#eef2ff}
-  .dark .btn-ghost{background:#0f172a;border-color:#1e293b;color:#e2e8f0}
-  .dark .btn-ghost:hover{border-color:#6366f1;color:#c7d2fe;background:#1e1b4b}
-  .icon-btn{display:inline-flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;border-radius:.9rem;border:1px solid #e2e8f0;background:#fff;color:#475569;transition:.15s}
-  .icon-btn:hover{border-color:#6366f1;color:#4f46e5;transform:translateY(-1px)}
-  .dark .icon-btn{background:#0f172a;border-color:#1e293b;color:#cbd5e1}
+  /* ── animações ambientes (funcionam sem hover — mobile first) ── */
+  @keyframes tickerScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @keyframes tickerScrollRev{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+  .ticker-track{display:inline-flex;gap:0;white-space:nowrap;animation:tickerScroll 28s linear infinite;will-change:transform}
+  .ticker-track.rev{animation:tickerScrollRev 34s linear infinite}
+  .ticker:hover .ticker-track{animation-play-state:paused}
+  @media (prefers-reduced-motion: reduce){ .ticker-track,.wobble,.spin-slow,.anim-blink,.anim-bounce,.sparkle,.eq i,.btn-shine::after{animation:none !important} html{scroll-behavior:auto} }
+  @keyframes spinSlow{to{transform:rotate(360deg)}}
+  .spin-slow{animation:spinSlow 14s linear infinite}
+  @keyframes wobble{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+  .wobble{animation:wobble 3.2s ease-in-out infinite}
+  @keyframes floaty{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}
+  .floaty{animation:floaty 4s ease-in-out infinite}
+  /* pisca-pisca tipo "ON AIR" */
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+  .anim-blink{animation:blink 1.4s steps(2,start) infinite}
+  /* quique suave p/ stickers e selos */
+  @keyframes bounceSoft{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-5px) rotate(3deg)}}
+  .anim-bounce{animation:bounceSoft 2.2s ease-in-out infinite}
+  /* estrelinhas cintilando no hero */
+  @keyframes twinkle{0%,100%{opacity:.15;transform:scale(.7)}50%{opacity:1;transform:scale(1.15)}}
+  .sparkle{animation:twinkle 2.6s ease-in-out infinite}
+  /* brilho varrendo o botão (shine) */
+  .btn-shine{position:relative;overflow:hidden}
+  .btn-shine::after{content:"";position:absolute;top:0;bottom:0;width:36px;left:-60px;background:linear-gradient(100deg,transparent,rgba(255,255,255,.65),transparent);transform:skewX(-18deg);animation:shineSweep 3.4s ease-in-out infinite}
+  @keyframes shineSweep{0%{left:-60px}55%,100%{left:130%}}
+  /* equalizador "tocando agora" */
+  .eq{display:inline-flex;align-items:flex-end;gap:2.5px;height:15px}
+  .eq i{width:3px;background:#a83e5c;border-radius:1px;animation:eqBounce 1s ease-in-out infinite}
+  .eq i:nth-child(1){height:60%;animation-delay:0s}
+  .eq i:nth-child(2){height:100%;animation-delay:.18s}
+  .eq i:nth-child(3){height:45%;animation-delay:.36s}
+  .eq i:nth-child(4){height:80%;animation-delay:.1s}
+  @keyframes eqBounce{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+  .eq i{transform-origin:bottom}
 
-  .card{background:#fff;border:1px solid #eef2f7;border-radius:1.25rem;box-shadow:0 1px 2px rgb(15 23 42 / .04);transition:transform .2s, box-shadow .25s, border-color .2s}
-  .dark .card{background:#0b1220;border-color:#162033;box-shadow:none}
-  .card-hover:hover{transform:translateY(-3px);box-shadow:0 20px 40px -18px rgb(99 102 241 / .35);border-color:#e0e7ff}
-  .dark .card-hover:hover{border-color:#312e81}
-  .badge{display:inline-flex;align-items:center;gap:.25rem;font-size:.7rem;font-weight:700;padding:.3rem .65rem;border-radius:9999px;line-height:1.4;white-space:nowrap}
+  /* ── design system: cantos contidos, pastel anos 2000 ── */
+  .page-sheet{background:#fdf6ec;border:2.5px solid var(--ink);border-radius:10px;box-shadow:5px 5px 0 rgba(70,50,60,.3)}
+  @media (max-width:640px){ .page-sheet{border-radius:8px} }
 
-  .eyebrow{display:inline-flex;align-items:center;gap:.35rem;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#4f46e5;background:#eef2ff;padding:.35rem .75rem;border-radius:9999px}
-  .dark .eyebrow{background:#1e1b4b;color:#c7d2fe}
+  .input{width:100%;border-radius:.45rem;border:2px solid var(--ink);padding:.7rem 1rem;font-size:.9rem;font-weight:700;background:#fff;color:#4d3a44;transition:.15s;box-shadow:2px 2px 0 #e5d9c8}
+  .input::placeholder{color:#a8989f;font-weight:600}
+  .input:focus{outline:none;border-color:var(--pink);box-shadow:2px 2px 0 #e8a0b4}
+  label.flabel{display:block;font-family:'Fredoka';font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#7a6470;margin-bottom:.35rem}
 
-  .nav-link{display:inline-flex;align-items:center;gap:.45rem;position:relative;padding:.55rem .85rem;border-radius:.7rem;transition:.15s;color:#475569}
-  .nav-link:hover{background:#f1f5f9;color:#0f172a}
-  .dark .nav-link{color:#94a3b8}
-  .dark .nav-link:hover{background:#162033;color:#f1f5f9}
-  .nav-link.active{background:#eef2ff;color:#4f46e5;font-weight:700}
-  .dark .nav-link.active{background:#1e1b4b;color:#c7d2fe}
-  .tab-item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;font-weight:600;color:#94a3b8;padding:.5rem 0 .35rem;flex:1;border-radius:.75rem}
-  .tab-item.active{color:#4f46e5}
-  .dark .tab-item.active{color:#a5b4fc}
+  .btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;background:#c9506e;color:#fff;font-family:'Fredoka';font-weight:600;font-size:.9rem;letter-spacing:.01em;padding:.72rem 1.35rem;border-radius:.5rem;border:2px solid var(--ink);box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 3px 3px 0 var(--ink);transition:.15s;text-shadow:0 1px 0 rgba(0,0,0,.2)}
+  .btn-primary:hover{transform:translate(-1px,-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 4px 4px 0 var(--ink);filter:brightness(1.04)}
+  .btn-primary:active{transform:translate(2px,2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.25), 1px 1px 0 var(--ink)}
+  .btn-blue{background:#6d8cb3}
+  .btn-sun{background:#f2d98d;color:#5a3d2b;text-shadow:none}
+
+  .btn-ghost{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;border:2px solid var(--ink);background:#fff;padding:.65rem 1.15rem;border-radius:.5rem;font-weight:800;font-size:.875rem;color:#5a4a56;transition:.15s;box-shadow:3px 3px 0 var(--ink)}
+  .btn-ghost:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink);background:#fbe9ec;border-color:#c9506e;color:#a83e5c}
+  .btn-ghost:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+
+  .icon-btn{display:inline-flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;border-radius:.45rem;border:2px solid var(--ink);background:#f4ede1;color:#5a4a56;transition:.15s;box-shadow:2px 2px 0 var(--ink)}
+  .icon-btn:hover{transform:translateY(-1px);border-color:#c9506e;color:#a83e5c}
+
+  .card{background:#fffdf8;border:2px solid var(--ink);border-radius:.6rem;box-shadow:3px 3px 0 var(--ink);transition:transform .18s, box-shadow .2s}
+  .card-hover:hover{transform:translateY(-2px);box-shadow:4px 4px 0 var(--pink)}
+  .badge{display:inline-flex;align-items:center;gap:.25rem;font-family:'Fredoka';font-size:.7rem;font-weight:600;padding:.32rem .68rem;border-radius:.45rem;line-height:1.4;white-space:nowrap;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink)}
+
+  /* cabeçalho de seção: amarelo pastel, cantos contidos */
+  .eyebrow{display:inline-flex;align-items:center;gap:.4rem;font-family:'Fredoka';font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:#4d3a44;background:#f2d98d;padding:.38rem .8rem;border-radius:.45rem;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink)}
+  .eyebrow::before{content:"★"}
+  .hand-note{font-family:'Caveat';font-size:1.25rem;line-height:1.1;color:#a83e5c;transform:rotate(-2deg);display:inline-block}
+
+  .nav-link{display:inline-flex;align-items:center;gap:.45rem;position:relative;padding:.5rem .8rem;border-radius:.4rem;transition:.15s;color:#eef2f7;font-weight:800;font-size:.86rem;text-shadow:0 1px 1px rgba(0,0,0,.3)}
+  .nav-link:hover{background:rgba(255,255,255,.2);color:#fff}
+  .nav-link.active{background:#fdf6ec;color:#4d6478;font-weight:900;text-shadow:none;box-shadow:0 1px 3px rgba(0,0,0,.25);border:1px solid #4a6484}
+
+  .tab-item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;font-weight:800;color:#7a6470;padding:.5rem 0 .35rem;flex:1;border-radius:.4rem;font-family:'Fredoka';text-transform:uppercase;letter-spacing:.04em}
+  .tab-item.active{color:#a83e5c}
 
   @keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
-  .toast{animation:slideDown .25s ease-out}
+  .toast{animation:slideDown .25s ease-out;border-width:2px !important;box-shadow:3px 3px 0 var(--ink)}
 
-  .avatar{display:inline-flex;align-items:center;justify-content:center;border-radius:9999px;font-weight:800;color:#fff;background:linear-gradient(135deg,#6366f1,#a855f7);flex-shrink:0}
-  .tile{display:inline-flex;align-items:center;justify-content:center;border-radius:.9rem;flex-shrink:0}
+  .avatar{display:inline-flex;align-items:center;justify-content:center;border-radius:.5rem;font-weight:800;color:#fff;background:#c98ba0;flex-shrink:0;border:2px solid var(--ink)}
+  .tile{display:inline-flex;align-items:center;justify-content:center;border-radius:.45rem;flex-shrink:0;border:2px solid var(--ink)}
+
+  /* polaroid + tape (tumblr / scrapbook) */
+  .polaroid{background:#fff;padding:.6rem .6rem 1rem;border:2px solid var(--ink);border-radius:.35rem;box-shadow:3px 3px 0 var(--ink);position:relative}
+  .tape{position:relative}
+  .tape::before{content:"";position:absolute;top:-12px;left:50%;transform:translateX(-50%) rotate(-4deg);width:92px;height:24px;background:rgba(242,217,141,.9);border-left:2px dashed rgba(0,0,0,.12);border-right:2px dashed rgba(0,0,0,.12);z-index:2}
+
+  .sticker{font-family:'Fredoka';font-weight:700;text-transform:uppercase;letter-spacing:.05em;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);border-radius:.4rem}
+  .divider-stars{display:flex;align-items:center;gap:.6rem;color:#fff;opacity:.75;font-size:.8rem;letter-spacing:.35em}
+  .divider-stars::before,.divider-stars::after{content:"";height:2px;flex:1;background:repeating-linear-gradient(90deg,#ffffffaa 0 8px,transparent 8px 16px);opacity:.5}
+
+  /* orkut-ish sidebar numbers */
+  .orkut-stat{background:#fffdf8;border:2px solid var(--ink);border-radius:.5rem;box-shadow:2px 2px 0 var(--ink)}
+
+  /* scrollbar discreta */
+  ::-webkit-scrollbar{width:12px;height:12px}
+  ::-webkit-scrollbar-track{background:#7d9cbf}
+  ::-webkit-scrollbar-thumb{background:#c98ba0;border-radius:6px;border:2px solid #7d9cbf}
 </style>
 {% block head %}{% endblock %}
 </head>
-<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors">
+<body class="starry text-slate-800 min-h-screen flex flex-col">
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker overflow-hidden border-b-2 border-[#4d3a44] text-[#4d3a44] text-[12.5px] font-extrabold" style="background:#f2d98d" role="note" aria-label="Avisos da comunidade">
+  <div class="ticker-track py-1.5">
+    <span class="px-4"><span class="anim-blink">●</span> bem-vindx ao bibliomatch ☆ o teu clube do livro ★ favorite 2 livros p/ gerar um match ★ ranking atualizado a cada ♥ &nbsp;&nbsp;&nbsp; <span class="anim-blink">●</span> bem-vindx ao bibliomatch ☆ o teu clube do livro ★ favorite 2 livros p/ gerar um match ★ ranking atualizado a cada ♥ &nbsp;&nbsp;&nbsp;</span>
+    <span class="px-4" aria-hidden="true">★ bem-vindx ao bibliomatch ☆ o teu clube do livro ★ favorite 2 livros p/ gerar um match ★ ranking atualizado a cada ♥ &nbsp;&nbsp;&nbsp; ★ bem-vindx ao bibliomatch ☆ o teu clube do livro ★ favorite 2 livros p/ gerar um match ★ ranking atualizado a cada ♥ &nbsp;&nbsp;&nbsp;</span>
+  </div>
+</div>
 
 <!-- ══════════ NAVBAR ══════════ -->
-<header class="sticky top-0 z-40 backdrop-blur-xl bg-white/85 dark:bg-slate-950/85 border-b border-slate-200/70 dark:border-slate-800/70">
-<nav class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16 gap-2">
-  <a href="{% url 'home' %}" class="flex items-center gap-2.5 font-extrabold text-lg tracking-tight shrink-0">
-    <span class="w-9 h-9 rounded-xl grid place-items-center text-white shadow-soft" style="background:linear-gradient(135deg,#6366f1,#a855f7,#ec4899)">{% include 'core/partials/icon.html' with name='book' cls='w-5 h-5' %}</span>
-    <span>Biblio<span class="text-indigo-500">Match</span></span>
+<header class="sticky top-0 z-40 glossy-bar border-b-2 border-[#4a6484]">
+<nav class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-[4.2rem] gap-2">
+  <a href="{% url 'home' %}" class="flex items-center gap-2.5 shrink-0 group">
+    <span class="w-10 h-10 rounded-md grid place-items-center bg-white border-2 border-[#4d3a44] shadow-[2px_2px_0_#4d3a44] -rotate-6 group-hover:rotate-3 transition-transform text-[#a83e5c]">{% include 'core/partials/icon.html' with name='book' cls='w-5 h-5' %}</span>
+    <span class="leading-none">
+      <span class="font-display font-bold text-[1.35rem] text-white tracking-tight block" style="text-shadow:0 1px 0 rgba(60,50,60,.6)">biblio<span class="text-[#f7e3a1]">match</span><sup class="text-[10px] align-super ml-0.5 inline-block spin-slow">★</sup></span>
+      <span class="hidden sm:block text-[10.5px] font-bold text-blue-100/90 tracking-[.14em] uppercase">clube do livro · desde 2004</span>
+    </span>
   </a>
   {% with active=request.resolver_match.url_name %}
-  <div class="hidden md:flex items-center gap-0.5 text-sm font-medium">
-    <a href="{% url 'livros' %}" class="nav-link {% if active == 'livros' or active == 'livro_detalhe' %}active{% endif %}">Acervo</a>
-    <a href="{% url 'ranking' %}" class="nav-link {% if active == 'ranking' %}active{% endif %}">Ranking</a>
+  <div class="hidden md:flex items-center gap-1 text-sm font-medium bg-black/10 rounded-lg p-1 border border-white/20">
+    <a href="{% url 'livros' %}" class="nav-link {% if active == 'livros' or active == 'livro_detalhe' %}active{% endif %}">★ Acervo</a>
+    <a href="{% url 'ranking' %}" class="nav-link {% if active == 'ranking' %}active{% endif %}">Popular</a>
     <a href="{% url 'colecoes' %}" class="nav-link {% if active == 'colecoes' or active == 'colecao_detalhe' %}active{% endif %}">Listas</a>
     {% if user.is_authenticated %}
     <a href="{% url 'matches' %}" class="nav-link {% if active == 'matches' %}active{% endif %}">Matches</a>
@@ -94,36 +196,35 @@ if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.match
   </div>
   {% endwith %}
   <div class="flex items-center gap-2">
-    <button onclick="toggleTheme()" class="icon-btn" title="Alternar tema claro/escuro" aria-label="Alternar tema">
-      <span class="dark:hidden">{% include 'core/partials/icon.html' with name='moon' cls='w-5 h-5' %}</span><span class="hidden dark:inline">{% include 'core/partials/icon.html' with name='sun' cls='w-5 h-5' %}</span>
-    </button>
+    <span class="hidden sm:inline-flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider bg-white border-2 border-[#4d3a44] rounded px-2 py-1.5 shadow-[2px_2px_0_#4d3a44] text-[#4d3a44]" title="sempre online ★"><span class="w-2 h-2 rounded-full bg-[#c94f4f] inline-block anim-blink"></span>online</span>
     {% if user.is_authenticated %}
-    <a href="{% url 'notificacoes' %}" class="icon-btn relative" title="Notificações" aria-label="Notificações">{% include 'core/partials/icon.html' with name='bell' cls='w-5 h-5' %}
-      {% if notificacoes_nao_lidas %}<span class="absolute -top-1.5 -right-1.5 min-w-[1.3rem] h-5 px-1 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 text-white text-[11px] font-bold grid place-items-center shadow">{{ notificacoes_nao_lidas }}</span>{% endif %}
+    <a href="{% url 'notificacoes' %}" class="icon-btn !bg-white relative" title="Notificações" aria-label="Notificações">{% include 'core/partials/icon.html' with name='bell' cls='w-5 h-5' %}
+      {% if notificacoes_nao_lidas %}<span class="absolute -top-2 -right-2 min-w-[1.4rem] h-6 px-1.5 rounded bg-[#c94f4f] border-2 border-[#4d3a44] text-white text-[11px] font-black grid place-items-center shadow-[2px_2px_0_#4d3a44]">{{ notificacoes_nao_lidas }}</span>{% endif %}
     </a>
-    <a href="{% url 'perfil' %}" class="hidden sm:flex items-center gap-2 pl-1 pr-3 py-1 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-indigo-400 transition" title="Meu perfil">
-      <span class="avatar w-8 h-8 text-sm">{{ user.username|first|upper }}</span>
-      <span class="text-sm font-semibold max-w-[7rem] truncate">{{ user.username }}</span>
+    <a href="{% url 'perfil' %}" class="hidden sm:flex items-center gap-2 pl-1 pr-2.5 py-1 rounded-md bg-white border-2 border-[#4d3a44] shadow-[2px_2px_0_#4d3a44] hover:-translate-y-0.5 transition text-[#4d3a44]" title="Meu perfil ★ {{ user.username }}">
+      <span class="avatar w-8 h-8 text-sm !border-[#4d3a44]">{{ user.username|first|upper }}</span>
+      <span class="text-sm font-extrabold max-w-[7rem] truncate">{{ user.username }}</span>
+      <span class="text-[10px] font-black bg-[#f2d98d] border border-[#4d3a44] rounded px-1.5 py-px">ON</span>
     </a>
     {% else %}
-    <a href="{% url 'login' %}" class="hidden sm:inline-block text-sm font-semibold px-3 py-2 rounded-lg hover:text-indigo-600">Entrar</a>
-    <a href="{% url 'cadastro' %}" class="btn-primary !py-2.5 text-sm">Criar conta</a>
+    <a href="{% url 'login' %}" class="glossy-btn hidden sm:inline-block text-sm font-extrabold px-4 py-2 rounded-md text-white">Entrar</a>
+    <a href="{% url 'cadastro' %}" class="btn-primary btn-shine !py-2.5 !text-[13px]">★ Criar conta</a>
     {% endif %}
-    <button onclick="document.getElementById('mmenu').classList.toggle('hidden')" class="md:hidden icon-btn" aria-label="Abrir menu">{% include 'core/partials/icon.html' with name='menu' cls='w-5 h-5' %}</button>
+    <button onclick="document.getElementById('mmenu').classList.toggle('hidden')" class="md:hidden icon-btn !bg-white" aria-label="Abrir menu">{% include 'core/partials/icon.html' with name='menu' cls='w-5 h-5' %}</button>
   </div>
 </nav>
-<div id="mmenu" class="hidden md:hidden border-t border-slate-200/70 dark:border-slate-800/70 px-4 py-3 space-y-0.5 text-sm font-medium bg-white dark:bg-slate-950">
+<div id="mmenu" class="hidden md:hidden mx-3 mb-3 rounded-lg bg-[#fdf6ec] border-2 border-[#4d3a44] shadow-[3px_3px_0_#4d3a44] px-3 py-3 space-y-0.5 text-sm font-bold text-[#5a4a56]">
   {% with active=request.resolver_match.url_name %}
-  <a href="{% url 'livros' %}" class="nav-link block {% if active == 'livros' %}active{% endif %}">Acervo</a>
-  <a href="{% url 'ranking' %}" class="nav-link block {% if active == 'ranking' %}active{% endif %}">Ranking</a>
-  <a href="{% url 'colecoes' %}" class="nav-link block {% if active == 'colecoes' %}active{% endif %}">Listas de recomendação</a>
+  <a href="{% url 'livros' %}" class="block px-3 py-2.5 rounded-md {% if active == 'livros' %}bg-[#f2d98d] text-[#4d3a44]{% else %}hover:bg-[#fbe9ec]{% endif %}">★ Acervo</a>
+  <a href="{% url 'ranking' %}" class="block px-3 py-2.5 rounded-md {% if active == 'ranking' %}bg-[#f2d98d] text-[#4d3a44]{% else %}hover:bg-[#fbe9ec]{% endif %}">♥ Ranking</a>
+  <a href="{% url 'colecoes' %}" class="block px-3 py-2.5 rounded-md {% if active == 'colecoes' %}bg-[#f2d98d] text-[#4d3a44]{% else %}hover:bg-[#fbe9ec]{% endif %}">☆ Listas de recomendação</a>
   {% if user.is_authenticated %}
-  <a href="{% url 'matches' %}" class="nav-link block {% if active == 'matches' %}active{% endif %}">Meus matches</a>
-  <a href="{% url 'meus_favoritos' %}" class="nav-link block {% if active == 'meus_favoritos' %}active{% endif %}">Favoritos</a>
-  <a href="{% url 'meus_emprestimos' %}" class="nav-link block {% if active == 'meus_emprestimos' %}active{% endif %}">Empréstimos</a>
-  <a href="{% url 'perfil' %}" class="nav-link block {% if active == 'perfil' %}active{% endif %}">{{ user.username }} — Perfil</a>
+  <a href="{% url 'matches' %}" class="block px-3 py-2.5 rounded-md {% if active == 'matches' %}bg-[#f2d98d] text-[#4d3a44]{% else %}hover:bg-[#fbe9ec]{% endif %}">☺ Meus matches</a>
+  <a href="{% url 'meus_favoritos' %}" class="block px-3 py-2.5 rounded-md hover:bg-[#fbe9ec]">♥ Favoritos</a>
+  <a href="{% url 'meus_emprestimos' %}" class="block px-3 py-2.5 rounded-md hover:bg-[#fbe9ec]">→ Empréstimos</a>
+  <a href="{% url 'perfil' %}" class="block px-3 py-2.5 rounded-md hover:bg-[#fbe9ec]">{{ user.username }} — Perfil ★</a>
   {% else %}
-  <a href="{% url 'login' %}" class="nav-link block">Entrar</a>
+  <a href="{% url 'login' %}" class="block px-3 py-2.5 rounded-md hover:bg-[#fbe9ec]">Entrar →</a>
   {% endif %}
   {% endwith %}
 </div>
@@ -133,28 +234,35 @@ if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.match
 {% if messages %}
 <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 pt-4 space-y-2">
   {% for m in messages %}
-  <div class="toast flex items-start gap-3 px-4 py-3 rounded-2xl text-sm font-medium shadow-soft border {% if m.tags == 'error' %}bg-red-50 border-red-200 text-red-800 dark:bg-red-950/60 dark:border-red-800/50 dark:text-red-200{% elif m.tags == 'info' %}bg-blue-50 border-blue-200 text-blue-800 dark:bg-blue-950/60 dark:border-blue-800/50 dark:text-blue-200{% else %}bg-emerald-50 border-emerald-200 text-emerald-800 dark:bg-emerald-950/60 dark:border-emerald-800/50 dark:text-emerald-200{% endif %}">
+  <div class="toast flex items-start gap-3 px-4 py-3 rounded-lg text-sm font-bold border-[#4d3a44] border-2 {% if m.tags == 'error' %}bg-[#f6d9d4] text-[#8f3a32]{% elif m.tags == 'info' %}bg-[#d7e2ee] text-[#3d5a76]{% else %}bg-[#dde6d2] text-[#4a5d3f]{% endif %}">
     <span class="mt-0.5 shrink-0">{% if m.tags == 'error' %}{% include 'core/partials/icon.html' with name='alert' cls='w-5 h-5' %}{% elif m.tags == 'info' %}{% include 'core/partials/icon.html' with name='info' cls='w-5 h-5' %}{% else %}{% include 'core/partials/icon.html' with name='check' cls='w-5 h-5' %}{% endif %}</span>
-    <span class="flex-1 leading-relaxed">{{ m }}</span>
-    <button onclick="this.parentElement.remove()" class="opacity-50 hover:opacity-100 font-bold shrink-0" aria-label="Fechar notificação">{% include 'core/partials/icon.html' with name='x' cls='w-4 h-4' %}</button>
+    <span class="flex-1 leading-relaxed">★ {{ m }}</span>
+    <button onclick="this.parentElement.remove()" class="opacity-60 hover:opacity-100 font-black shrink-0" aria-label="Fechar notificação">{% include 'core/partials/icon.html' with name='x' cls='w-4 h-4' %}</button>
   </div>
   {% endfor %}
 </div>
 {% endif %}
 
-<main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10 pb-24 md:pb-12">
-{% block content %}{% endblock %}
+<main class="flex-1 w-full max-w-7xl mx-auto px-3 sm:px-6 py-5 sm:py-8 pb-24 md:pb-10">
+<div class="page-sheet p-4 sm:p-8 lg:p-10 relative overflow-hidden">
+  <!-- washi corners -->
+  <div class="pointer-events-none absolute -top-1 -left-6 w-28 h-7 rotate-[-35deg] bg-[#e8a0b4]/70 border-y border-[#a83e5c]/30" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute -top-1 -right-6 w-28 h-7 rotate-[35deg] bg-[#f2d98d]/90 border-y border-yellow-700/20" aria-hidden="true"></div>
+  {% block content %}{% endblock %}
+  <p class="font-hand text-center text-xl mt-8 text-slate-500">xoxo, equipe biblio ★ assina o guestbook: favorita um livro!!</p>
+</div>
+<div class="divider-stars mt-5 px-6 select-none" aria-hidden="true">★ ☆ ★ ☆ ★</div>
 </main>
 
-<!-- ══════════ BARRA DE NAVEGAÇÃO MOBILE ══════════ -->
-<nav class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 px-2 pb-[env(safe-area-inset-bottom)]" aria-label="Navegação principal">
+<!-- ══════════ BARRA DE NAVEGAÇÃO MOBILE — dock retrô ══════════ -->
+<nav class="md:hidden fixed bottom-3 inset-x-3 z-40 rounded-lg bg-[#fdf6ec]/95 backdrop-blur border-2 border-[#4d3a44] shadow-[3px_3px_0_#4d3a44] px-2 pb-[env(safe-area-inset-bottom)]" aria-label="Navegação principal">
   {% with active=request.resolver_match.url_name %}
   <div class="flex items-stretch">
     <a href="{% url 'home' %}" class="tab-item {% if active == 'home' %}active{% endif %}">{% include 'core/partials/icon.html' with name='home' cls='w-6 h-6' %}Início</a>
     <a href="{% url 'livros' %}" class="tab-item {% if active == 'livros' or active == 'livro_detalhe' %}active{% endif %}">{% include 'core/partials/icon.html' with name='book' cls='w-6 h-6' %}Acervo</a>
-    <a href="{% url 'ranking' %}" class="tab-item {% if active == 'ranking' %}active{% endif %}">{% include 'core/partials/icon.html' with name='chart' cls='w-6 h-6' %}Ranking</a>
+    <a href="{% url 'ranking' %}" class="tab-item {% if active == 'ranking' %}active{% endif %}">{% include 'core/partials/icon.html' with name='chart' cls='w-6 h-6' %}Popular</a>
     {% if user.is_authenticated %}
-    <a href="{% url 'matches' %}" class="tab-item relative {% if active == 'matches' %}active{% endif %}">{% include 'core/partials/icon.html' with name='users' cls='w-6 h-6' %}Matches{% if notificacoes_nao_lidas %}<span class="absolute top-1 right-1/2 translate-x-4 w-2.5 h-2.5 rounded-full bg-pink-500"></span>{% endif %}</a>
+    <a href="{% url 'matches' %}" class="tab-item relative {% if active == 'matches' %}active{% endif %}">{% include 'core/partials/icon.html' with name='users' cls='w-6 h-6' %}Matches{% if notificacoes_nao_lidas %}<span class="absolute top-1 right-1/2 translate-x-4 w-2.5 h-2.5 rounded-full bg-[#c9506e] border border-[#4d3a44]"></span>{% endif %}</a>
     <a href="{% url 'perfil' %}" class="tab-item {% if active == 'perfil' %}active{% endif %}">{% include 'core/partials/icon.html' with name='user' cls='w-6 h-6' %}Perfil</a>
     {% else %}
     <a href="{% url 'colecoes' %}" class="tab-item {% if active == 'colecoes' %}active{% endif %}">{% include 'core/partials/icon.html' with name='list' cls='w-6 h-6' %}Listas</a>
@@ -164,25 +272,42 @@ if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.match
   {% endwith %}
 </nav>
 
-<!-- ══════════ RODAPÉ ══════════ -->
-<footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 mt-4">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-sm">
-  <div class="space-y-2">
-    <p class="flex items-center gap-2 font-extrabold text-lg"><span class="w-8 h-8 rounded-lg grid place-items-center text-white" style="background:linear-gradient(135deg,#6366f1,#a855f7,#ec4899)">{% include 'core/partials/icon.html' with name='book' cls='w-4 h-4' %}</span>Biblio<span class="text-indigo-500 -ml-2">Match</span></p>
-    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Sistema de biblioteca social: favoritos, match literário, ranking e empréstimos.</p>
+<!-- ══════════ TICKER 2 (volta em direção contrária) ══════════ -->
+<div class="ticker overflow-hidden border-y-2 border-[#4d3a44] text-[#fdf6ec] text-[12px] font-extrabold" style="background:#c98ba0" aria-hidden="true">
+  <div class="ticker-track rev py-1.5">
+    <span class="px-4">♥ adicione aos favoritos ☆ deixe um recado ★ indique p/ uma amiga ♥ visite o ranking ☆ leia um capítulo hoje ★&nbsp;&nbsp;&nbsp;♥ adicione aos favoritos ☆ deixe um recado ★ indique p/ uma amiga ♥ visite o ranking ☆ leia um capítulo hoje ★&nbsp;&nbsp;&nbsp;</span>
+    <span class="px-4">♥ adicione aos favoritos ☆ deixe um recado ★ indique p/ uma amiga ♥ visite o ranking ☆ leia um capítulo hoje ★&nbsp;&nbsp;&nbsp;♥ adicione aos favoritos ☆ deixe um recado ★ indique p/ uma amiga ♥ visite o ranking ☆ leia um capítulo hoje ★&nbsp;&nbsp;&nbsp;</span>
   </div>
-  <div><p class="font-bold mb-3 text-xs uppercase tracking-wider text-slate-400">Explorar</p><div class="flex flex-col gap-2 text-slate-600 dark:text-slate-300"><a class="hover:text-indigo-500 w-fit" href="{% url 'livros' %}">Acervo</a><a class="hover:text-indigo-500 w-fit" href="{% url 'ranking' %}">Ranking</a><a class="hover:text-indigo-500 w-fit" href="{% url 'colecoes' %}">Listas de recomendação</a></div></div>
-  <div><p class="font-bold mb-3 text-xs uppercase tracking-wider text-slate-400">Conta</p><div class="flex flex-col gap-2 text-slate-600 dark:text-slate-300">{% if user.is_authenticated %}<a class="hover:text-indigo-500 w-fit" href="{% url 'matches' %}">Meus matches</a><a class="hover:text-indigo-500 w-fit" href="{% url 'meus_emprestimos' %}">Empréstimos</a><a class="hover:text-indigo-500 w-fit" href="{% url 'perfil' %}">Perfil</a>{% else %}<a class="hover:text-indigo-500 w-fit" href="{% url 'login' %}">Entrar</a><a class="hover:text-indigo-500 w-fit" href="{% url 'cadastro' %}">Criar conta</a>{% endif %}</div></div>
-  <div><p class="font-bold mb-3 text-xs uppercase tracking-wider text-slate-400">Apresentação</p><ol class="text-slate-500 dark:text-slate-400 space-y-1.5 list-none"><li><b class="text-slate-700 dark:text-slate-200">1.</b> Crie uma conta</li><li><b class="text-slate-700 dark:text-slate-200">2.</b> Favorite obras e gere um match</li><li><b class="text-slate-700 dark:text-slate-200">3.</b> Contate via WhatsApp</li><li><b class="text-slate-700 dark:text-slate-200">4.</b> Simule empréstimo e devolução</li></ol></div>
+</div>
+
+<!-- ══════════ RODAPÉ ══════════ -->
+<footer class="mt-2 pb-24 md:pb-8">
+<div class="max-w-7xl mx-auto px-3 sm:px-6">
+<div class="rounded-xl border-2 border-[#4d3a44] overflow-hidden shadow-[4px_4px_0_rgba(70,50,60,.3)] bg-[#3a3348] text-[#e8dcd2]">
+  <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-sm p-6 sm:p-10">
+    <div class="space-y-2">
+      <p class="flex items-center gap-2 font-display font-bold text-lg text-white"><span class="w-9 h-9 rounded-md grid place-items-center bg-[#f2d98d] text-[#a83e5c] border-2 border-[#4d3a44] -rotate-6">{% include 'core/partials/icon.html' with name='book' cls='w-4 h-4' %}</span>biblio<span class="text-[#f7e3a1] -ml-2">match</span> <span class="text-xs bg-[#c9506e] text-white rounded px-2 py-0.5 border border-white/40">v2yay!</span></p>
+      <p class="text-[#cbbfb4] leading-relaxed text-[13px]">teu clube do livro: favoritos, match, ranking e empréstimos. feito à mão, com carinho.</p>
+      <p class="font-hand text-xl text-[#e8a0b4] -rotate-1">★ best viewed with friends ★</p>
+    </div>
+    <div><p class="font-display font-semibold mb-3 text-[11px] uppercase tracking-[.18em] text-[#f2d98d]">☆ explorar</p><div class="flex flex-col gap-2 text-[#e8dcd2] font-bold"><a class="hover:text-[#f2d98d] w-fit hover:underline decoration-wavy" href="{% url 'livros' %}">★ Acervo</a><a class="hover:text-[#f2d98d] w-fit hover:underline decoration-wavy" href="{% url 'ranking' %}">♥ Ranking popular</a><a class="hover:text-[#f2d98d] w-fit hover:underline decoration-wavy" href="{% url 'colecoes' %}">☆ Listas de recomendação</a></div></div>
+    <div><p class="font-display font-semibold mb-3 text-[11px] uppercase tracking-[.18em] text-[#f2d98d]">☆ conta</p><div class="flex flex-col gap-2 text-[#e8dcd2] font-bold">{% if user.is_authenticated %}<a class="hover:text-[#f2d98d] w-fit" href="{% url 'matches' %}">☺ Meus matches</a><a class="hover:text-[#f2d98d] w-fit" href="{% url 'meus_emprestimos' %}">→ Empréstimos</a><a class="hover:text-[#f2d98d] w-fit" href="{% url 'perfil' %}">✎ Perfil</a>{% else %}<a class="hover:text-[#f2d98d] w-fit" href="{% url 'login' %}">Entrar →</a><a class="hover:text-[#f2d98d] w-fit" href="{% url 'cadastro' %}">★ Criar conta</a>{% endif %}</div></div>
+    <div><p class="font-display font-semibold mb-3 text-[11px] uppercase tracking-[.18em] text-[#f2d98d]">☆ roteiro da feira</p><ol class="text-[#cbbfb4] space-y-1.5 list-none text-[13px] font-semibold"><li><b class="text-[#f2d98d]">1.</b> cria tua conta cutie</li><li><b class="text-[#f2d98d]">2.</b> favorita 2 obras = match!!</li><li><b class="text-[#f2d98d]">3.</b> chama no zap ♥</li><li><b class="text-[#f2d98d]">4.</b> pega emprestado e devolve</li></ol></div>
+  </div>
+  <div class="border-t border-white/10 px-6 py-4 flex flex-col sm:flex-row items-center gap-3 justify-between text-[12px]">
+    <p class="text-[#a8989f] font-semibold">© 2014–2026 biblioMatch ★ fan page amorosa anos 2000 ☆</p>
+    <div class="flex items-center gap-1.5" aria-label="Selos">
+      <span class="text-[10px] font-black px-2 py-1 rounded bg-[#c9506e] text-white border border-white/40">♥ xoxo</span>
+      <span class="text-[10px] font-black px-2 py-1 rounded bg-[#f2d98d] text-[#4d3a44] border border-[#4d3a44]">★ 100% html</span>
+      <span class="text-[10px] font-black px-2 py-1 rounded bg-[#e8dcd2] text-[#4d3a44] border border-[#4d3a44]">☺ IE friendly</span>
+      <span class="hidden sm:inline text-[10px] font-black px-2 py-1 rounded bg-[#c94f4f] text-white border border-[#5a2b2b] anim-blink">◉ online!</span>
+    </div>
+  </div>
+</div>
 </div>
 </footer>
 
 <script>
-function toggleTheme(){
-  const h = document.documentElement;
-  if(h.classList.contains('dark')){ h.classList.remove('dark'); localStorage.theme='light'; }
-  else { h.classList.add('dark'); localStorage.theme='dark'; }
-}
 setTimeout(()=>document.querySelectorAll('.toast').forEach(t=>{t.style.transition='opacity .4s';t.style.opacity='0';setTimeout(()=>t.remove(),400)}),6000);
 </script>
 </body>

@@ -2,10 +2,11 @@
 {% block title %}Criar conta — BiblioMatch{% endblock %}
 {% block content %}
 <div class="max-w-md mx-auto py-4 sm:py-8">
-  <div class="card p-6 sm:p-8">
-    <p class="tile w-14 h-14 mx-auto bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-white shadow-soft">{% include 'core/partials/icon.html' with name='user' cls='w-6 h-6' %}</p>
-    <h1 class="text-2xl font-extrabold tracking-tight text-center mt-4">Criar conta</h1>
-    <p class="text-sm text-slate-500 dark:text-slate-400 text-center mt-1 mb-6">O cadastro leva menos de um minuto.</p>
+  <div class="card p-6 sm:p-8 tape">
+    <p class="tile w-14 h-14 mx-auto bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-white">{% include 'core/partials/icon.html' with name='user' cls='w-6 h-6' %}</p>
+    <div class="text-center mt-4"><span class="eyebrow">join the club ☆</span></div>
+    <h1 class="font-display font-bold text-2xl tracking-tight text-center mt-3 text-[#4d3a44]">Criar continha ★</h1>
+    <p class="text-sm font-bold text-slate-500 text-center mt-1 mb-6">leva 1 min, juro! e já pode dar match ♥</p>
     <form method="post" class="space-y-4" novalidate>{% csrf_token %}
       {% for f in form %}
       <div>

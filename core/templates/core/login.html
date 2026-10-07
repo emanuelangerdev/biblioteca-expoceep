@@ -2,17 +2,17 @@
 {% block title %}Entrar — BiblioMatch{% endblock %}
 {% block content %}
 <div class="max-w-md mx-auto py-4 sm:py-8">
-  <div class="card p-6 sm:p-8">
-    <p class="tile w-14 h-14 mx-auto text-white shadow-soft" style="background:linear-gradient(135deg,#6366f1,#a855f7,#d946ef)">{% include 'core/partials/icon.html' with name='book' cls='w-6 h-6' %}</p>
-    <h1 class="text-2xl font-extrabold tracking-tight text-center mt-4">Bem-vindo de volta</h1>
-    <p class="text-sm text-slate-500 dark:text-slate-400 text-center mt-1 mb-6">Acesse sua conta para ver seus matches.</p>
+  <div class="card p-6 sm:p-8 tape">
+    <p class="tile w-14 h-14 mx-auto text-white" style="background:#c98ba0">{% include 'core/partials/icon.html' with name='book' cls='w-6 h-6' %}</p>
+    <div class="text-center mt-4"><span class="eyebrow">welcome back ★</span></div>
+    <h1 class="font-display font-bold text-2xl tracking-tight text-center mt-3 text-[#4d3a44]">Bem-vindx de volta!!</h1>
+    <p class="text-sm font-bold text-slate-500 text-center mt-1 mb-6">entra p/ ver teus matches ♥ sentimos tua falta!</p>
     <form method="post" class="space-y-4" novalidate>{% csrf_token %}
       {% for f in form %}<div><label class="flabel" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</div>{% endfor %}
-      {% if form.errors %}<p class="text-xs text-red-500 font-medium bg-red-50 dark:bg-red-950/50 rounded-xl px-3.5 py-2.5">Usuário ou senha inválidos. Verifique e tente novamente.</p>{% endif %}
+      {% if form.errors %}<p class="text-xs font-bold bg-[#f6d9d4] text-[#8f3a32] border-2 border-[#4d3a44] rounded-md px-3.5 py-2.5">Usuário ou senha inválidos. Verifique e tente novamente.</p>{% endif %}
       <button class="btn-primary w-full !py-3">Entrar</button>
     </form>
     <p class="text-sm text-center mt-6 text-slate-500">Ainda não possui conta? <a href="{% url 'cadastro' %}" class="font-bold text-indigo-500 hover:text-indigo-600">Cadastre-se</a></p>
   </div>
 </div>
-<style>.card input{width:100%;border-radius:.8rem;border:1px solid #e2e8f0;padding:.7rem 1rem;font-size:.9rem;background:#fff}.card input:focus{outline:none;border-color:#6366f1;box-shadow:0 0 0 3px rgb(99 102 241 / .15)}.dark .card input{background:#0f172a;border-color:#1e293b;color:#fff}</style>
 {% endblock %}

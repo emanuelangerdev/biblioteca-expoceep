@@ -5,7 +5,7 @@
   <div class="space-y-1.5">
     <span class="eyebrow">Biblioteca</span>
     <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Acervo</h1>
-    <p class="text-sm text-slate-500 dark:text-slate-400">Pesquise, filtre por área e favorite para gerar matches.</p>
+    <p class="text-sm text-slate-500">Pesquise, filtre por área e favorite para gerar matches.</p>
   </div>
   {% if user.is_authenticated %}<a href="{% url 'livro_novo' %}" class="btn-primary text-sm shrink-0">{% include 'core/partials/icon.html' with name='plus' cls='w-4 h-4' %}Cadastrar obra</a>{% endif %}
 </div>
@@ -35,24 +35,24 @@
   </a>
   <div class="p-3.5 sm:p-4 flex flex-col flex-1">
     <a href="{% url 'livro_detalhe' l.pk %}" class="font-bold text-sm leading-snug line-clamp-2 hover:text-indigo-500 transition">{{ l.titulo }}</a>
-    <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-1">{{ l.autor }}</p>
-    <div class="flex items-center gap-2 mt-3 pt-3 border-t border-slate-100 dark:border-slate-800">
+    <p class="text-xs text-slate-500 truncate mt-1">{{ l.autor }}</p>
+    <div class="flex items-center gap-2 mt-3 pt-3 border-t border-slate-100">
       {% if user.is_authenticated %}
         {% if l.pk in fav_ids %}
-        <a href="{% url 'favoritar' l.pk %}" class="flex-1 inline-flex items-center justify-center gap-1 text-xs font-bold bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-300 rounded-lg py-2.5 hover:bg-pink-200 dark:hover:bg-pink-900/60 transition" title="Remover dos favoritos">{% include 'core/partials/icon.html' with name='heart-solid' cls='w-3.5 h-3.5' %}Favoritado</a>
+        <a href="{% url 'favoritar' l.pk %}" class="flex-1 inline-flex items-center justify-center gap-1 text-xs font-bold bg-pink-100 text-pink-700 rounded-lg py-2.5 hover:bg-pink-200 transition" title="Remover dos favoritos">{% include 'core/partials/icon.html' with name='heart-solid' cls='w-3.5 h-3.5' %}Favoritado</a>
         {% else %}
-        <a href="{% url 'favoritar' l.pk %}" class="flex-1 inline-flex items-center justify-center gap-1 text-xs font-bold border border-slate-200 dark:border-slate-700 rounded-lg py-2.5 hover:border-pink-400 hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-950/40 transition" title="Adicionar aos favoritos">{% include 'core/partials/icon.html' with name='heart' cls='w-3.5 h-3.5' %}Favoritar</a>
+        <a href="{% url 'favoritar' l.pk %}" class="flex-1 inline-flex items-center justify-center gap-1 text-xs font-bold border border-slate-200 rounded-lg py-2.5 hover:border-pink-400 hover:text-pink-500 hover:bg-pink-50 transition" title="Adicionar aos favoritos">{% include 'core/partials/icon.html' with name='heart' cls='w-3.5 h-3.5' %}Favoritar</a>
         {% endif %}
       {% else %}
-      <a href="{% url 'login' %}" class="flex-1 inline-flex items-center justify-center gap-1 text-xs font-bold border border-slate-200 dark:border-slate-700 rounded-lg py-2.5 hover:border-pink-400 hover:text-pink-500 transition">{% include 'core/partials/icon.html' with name='heart' cls='w-3.5 h-3.5' %}Favoritar</a>
+      <a href="{% url 'login' %}" class="flex-1 inline-flex items-center justify-center gap-1 text-xs font-bold border border-slate-200 rounded-lg py-2.5 hover:border-pink-400 hover:text-pink-500 transition">{% include 'core/partials/icon.html' with name='heart' cls='w-3.5 h-3.5' %}Favoritar</a>
       {% endif %}
-      <span class="badge {% if l.disponiveis > 0 %}bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300{% else %}bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300{% endif %}" title="Exemplares disponíveis">{{ l.disponiveis }} disp.</span>
+      <span class="badge {% if l.disponiveis > 0 %}bg-emerald-100 text-emerald-700{% else %}bg-red-100 text-red-700{% endif %}" title="Exemplares disponíveis">{{ l.disponiveis }} disp.</span>
     </div>
   </div>
 </article>
 {% empty %}
 <div class="col-span-full card p-10 sm:p-14 text-center">
-  <p class="tile w-14 h-14 mx-auto bg-slate-100 dark:bg-slate-800 text-slate-400">{% include 'core/partials/icon.html' with name='inbox' cls='w-6 h-6' %}</p>
+  <p class="tile w-14 h-14 mx-auto bg-slate-100 text-slate-400">{% include 'core/partials/icon.html' with name='inbox' cls='w-6 h-6' %}</p>
   <p class="font-bold mt-4">Nenhuma obra encontrada</p>
   <p class="text-sm text-slate-500 mt-1">Ajuste os filtros ou cadastre uma nova obra.</p>
   <a class="btn-primary text-sm mt-5" href="{% url 'livro_novo' %}">Cadastrar obra</a>

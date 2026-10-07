@@ -2,11 +2,11 @@
 {% block title %}{{ titulo }} — BiblioMatch{% endblock %}
 {% block content %}
 <div class="max-w-2xl mx-auto">
-  <a href="javascript:history.back()" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-indigo-500 transition">{% include 'core/partials/icon.html' with name='back' cls='w-4 h-4' %}Voltar</a>
+  <a href="javascript:history.back()" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-indigo-500 transition">{% include 'core/partials/icon.html' with name='back' cls='w-4 h-4' %}Voltar</a>
   <div class="card p-6 sm:p-8 mt-4">
     <span class="eyebrow">Cadastro</span>
     <h1 class="text-2xl font-extrabold tracking-tight mt-2.5">{{ titulo }}</h1>
-    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-6">{{ sub }}</p>
+    <p class="text-sm text-slate-500 mt-1 mb-6">{{ sub }}</p>
     <form method="post" enctype="multipart/form-data" class="space-y-4">{% csrf_token %}
       {% for f in form %}
       <div>

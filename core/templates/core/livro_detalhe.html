@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 {% block title %}{{ livro.titulo }} — BiblioMatch{% endblock %}
 {% block content %}
-<a href="{% url 'livros' %}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-indigo-500 transition">{% include 'core/partials/icon.html' with name='back' cls='w-4 h-4' %}Voltar ao acervo</a>
+<a href="{% url 'livros' %}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-indigo-500 transition">{% include 'core/partials/icon.html' with name='back' cls='w-4 h-4' %}Voltar ao acervo</a>
 
 <div class="grid md:grid-cols-[280px_1fr] gap-5 lg:gap-8 mt-4">
   <div class="card overflow-hidden h-fit md:sticky md:top-24">
@@ -11,15 +11,15 @@
   <div class="space-y-4 sm:space-y-5 min-w-0">
     <div class="card p-5 sm:p-8">
       <div class="flex flex-wrap gap-2">
-        <span class="badge bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300">{{ livro.area }}</span>
-        <span class="badge bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-300">{{ livro.n_fav }} favorito(s)</span>
-        <span class="badge {% if livro.disponiveis > 0 %}bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300{% else %}bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300{% endif %}">{{ livro.disponiveis }}/{{ livro.estoque_total }} disponíveis</span>
+        <span class="badge bg-indigo-100 text-indigo-700">{{ livro.area }}</span>
+        <span class="badge bg-pink-100 text-pink-700">{{ livro.n_fav }} favorito(s)</span>
+        <span class="badge {% if livro.disponiveis > 0 %}bg-emerald-100 text-emerald-700{% else %}bg-red-100 text-red-700{% endif %}">{{ livro.disponiveis }}/{{ livro.estoque_total }} disponíveis</span>
       </div>
       <h1 class="text-2xl sm:text-[2rem] font-extrabold tracking-tight mt-4 leading-tight">{{ livro.titulo }}</h1>
-      <p class="text-slate-500 dark:text-slate-400 mt-1.5 text-sm sm:text-base">por <b class="text-slate-700 dark:text-slate-200">{{ livro.autor }}</b>{% if livro.ano %} <span class="text-slate-400">· {{ livro.ano }}</span>{% endif %}{% if livro.isbn %} <span class="text-slate-400">· ISBN {{ livro.isbn }}</span>{% endif %}</p>
-      <p class="text-sm sm:text-[0.95rem] mt-4 leading-relaxed text-slate-600 dark:text-slate-300">{{ livro.descricao|default:"Sinopse ainda não cadastrada." }}</p>
+      <p class="text-slate-500 mt-1.5 text-sm sm:text-base">por <b class="text-slate-700">{{ livro.autor }}</b>{% if livro.ano %} <span class="text-slate-400">· {{ livro.ano }}</span>{% endif %}{% if livro.isbn %} <span class="text-slate-400">· ISBN {{ livro.isbn }}</span>{% endif %}</p>
+      <p class="text-sm sm:text-[0.95rem] mt-4 leading-relaxed text-slate-600">{{ livro.descricao|default:"Sinopse ainda não cadastrada." }}</p>
       {% if user.is_authenticated %}
-      <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800">
+      <div class="mt-6 pt-6 border-t border-slate-100">
         {% if ja_favoritou %}
         <a href="{% url 'favoritar' livro.pk %}" class="btn-primary !from-pink-500 !to-rose-500 text-sm" title="Remover dos favoritos">{% include 'core/partials/icon.html' with name='heart-solid' cls='w-4 h-4' %}Nos favoritos — tocar para remover</a>
         {% else %}
@@ -27,7 +27,7 @@
         {% endif %}
       </div>
       {% else %}
-      <div class="flex flex-col sm:flex-row gap-2.5 mt-6 pt-6 border-t border-slate-100 dark:border-slate-800">
+      <div class="flex flex-col sm:flex-row gap-2.5 mt-6 pt-6 border-t border-slate-100">
         <a href="{% url 'login' %}" class="btn-primary text-sm">Entrar para favoritar</a>
         <a href="{% url 'cadastro' %}" class="btn-ghost text-sm">Criar conta</a>
       </div>
@@ -38,16 +38,16 @@
     <div class="card p-5 sm:p-6">
       <h2 class="font-bold flex items-center gap-2">{% include 'core/partials/icon.html' with name='return' cls='w-5 h-5 text-indigo-500' %}Empréstimo</h2>
       <dl class="grid grid-cols-3 gap-2.5 mt-4 text-center">
-        <div class="rounded-xl bg-slate-50 dark:bg-slate-800/60 py-3 px-2"><dt class="sr-only">Disponíveis</dt><dd class="font-extrabold">{{ livro.disponiveis }}</dd><dd class="text-[11px] text-slate-500 mt-0.5">disponíveis</dd></div>
-        <div class="rounded-xl bg-slate-50 dark:bg-slate-800/60 py-3 px-2"><dt class="sr-only">Acervo</dt><dd class="font-extrabold">{{ livro.estoque_total }}</dd><dd class="text-[11px] text-slate-500 mt-0.5">no acervo</dd></div>
-        <div class="rounded-xl bg-slate-50 dark:bg-slate-800/60 py-3 px-2"><dt class="sr-only">Fila</dt><dd class="font-extrabold">{{ fila_reserva }}</dd><dd class="text-[11px] text-slate-500 mt-0.5">na fila</dd></div>
+        <div class="rounded-xl bg-slate-50 py-3 px-2"><dt class="sr-only">Disponíveis</dt><dd class="font-extrabold">{{ livro.disponiveis }}</dd><dd class="text-[11px] text-slate-500 mt-0.5">disponíveis</dd></div>
+        <div class="rounded-xl bg-slate-50 py-3 px-2"><dt class="sr-only">Acervo</dt><dd class="font-extrabold">{{ livro.estoque_total }}</dd><dd class="text-[11px] text-slate-500 mt-0.5">no acervo</dd></div>
+        <div class="rounded-xl bg-slate-50 py-3 px-2"><dt class="sr-only">Fila</dt><dd class="font-extrabold">{{ fila_reserva }}</dd><dd class="text-[11px] text-slate-500 mt-0.5">na fila</dd></div>
       </dl>
       <div class="mt-4">
         {% if not user.is_authenticated %}
         <p class="text-sm text-slate-500">Entre na sua conta para solicitar empréstimos ou reservas.</p>
         <a href="{% url 'login' %}" class="btn-ghost text-sm mt-3">Entrar</a>
         {% elif meu_emprestimo %}
-        <div class="flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-emerald-200 dark:border-emerald-800/50 bg-emerald-50 dark:bg-emerald-950/40 p-4">
+        <div class="flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
           <p class="text-sm flex-1"><b>Você possui esta obra em empréstimo.</b><br><span class="text-slate-500">Devolução até {{ meu_emprestimo.data_prevista|date:"d/m/Y" }} · {{ meu_emprestimo.renovacoes }}/{{ max_renovacoes }} renovações utilizadas.</span></p>
           <a href="{% url 'meus_emprestimos' %}" class="btn-ghost text-sm shrink-0">Gerenciar</a>
         </div>
@@ -60,7 +60,7 @@
         </form>
         <p class="text-xs text-slate-400 mt-2.5">São permitidas até {{ max_renovacoes }} renovações por empréstimo, desde que não exista fila de reserva.</p>
         {% elif minha_reserva %}
-        <div class="flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-indigo-200 dark:border-indigo-800/50 bg-indigo-50 dark:bg-indigo-950/40 p-4">
+        <div class="flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-indigo-200 bg-indigo-50 p-4">
           <p class="text-sm flex-1"><b>Você está na fila de reserva.</b><br><span class="text-slate-500">Posição atual: {{ minha_reserva.posicao }} de {{ fila_reserva }}.</span></p>
           <a href="{% url 'cancelar_reserva' minha_reserva.pk %}" class="btn-ghost text-sm shrink-0">Cancelar reserva</a>
         </div>
@@ -77,10 +77,10 @@
       <h2 class="font-bold flex items-center gap-2">{% include 'core/partials/icon.html' with name='users' cls='w-5 h-5 text-violet-500' %}Leitores que também favoritaram</h2>
       {% if quem_favoritou %}
       <div class="flex flex-wrap gap-2 mt-4">
-        {% for f in quem_favoritou %}<span class="inline-flex items-center gap-1.5 text-xs font-semibold bg-violet-50 dark:bg-violet-950/50 text-violet-700 dark:text-violet-300 border border-violet-100 dark:border-violet-900/50 rounded-full pl-1 pr-3 py-1"><span class="avatar w-5 h-5 text-[10px]">{{ f.usuario.username|first|upper }}</span>{{ f.usuario.username }}</span>{% endfor %}
+        {% for f in quem_favoritou %}<span class="inline-flex items-center gap-1.5 text-xs font-semibold bg-violet-50 text-violet-700 border border-violet-100 rounded-full pl-1 pr-3 py-1"><span class="avatar w-5 h-5 text-[10px]">{{ f.usuario.username|first|upper }}</span>{{ f.usuario.username }}</span>{% endfor %}
       </div>
-      <p class="text-xs text-slate-500 dark:text-slate-400 mt-4 leading-relaxed">Favorite esta obra para gerar um match literário e receber uma notificação.</p>
-      {% else %}<div class="flex items-center gap-3 mt-4 text-sm text-slate-500 dark:text-slate-400"><span class="tile w-10 h-10 bg-slate-100 dark:bg-slate-800">{% include 'core/partials/icon.html' with name='star' cls='w-5 h-5' %}</span>Nenhum favorito registrado — seja o primeiro.</div>{% endif %}
+      <p class="text-xs text-slate-500 mt-4 leading-relaxed">Favorite esta obra para gerar um match literário e receber uma notificação.</p>
+      {% else %}<div class="flex items-center gap-3 mt-4 text-sm text-slate-500"><span class="tile w-10 h-10 bg-slate-100">{% include 'core/partials/icon.html' with name='star' cls='w-5 h-5' %}</span>Nenhum favorito registrado — seja o primeiro.</div>{% endif %}
     </div>
   </div>
 </div>
