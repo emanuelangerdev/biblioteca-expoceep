@@ -20,7 +20,7 @@
   <p class="font-display font-semibold text-base sm:text-lg mt-3 leading-snug text-[#4d3a44]">{{ c.titulo }}</p>
   <p class="text-sm font-semibold text-slate-500 line-clamp-2 mt-1.5 leading-relaxed">{{ c.descricao }}</p>
   <div class="flex items-center gap-2.5 mt-5 pt-4 border-t border-[#e5d9c8]">
-    <div class="flex -space-x-2">{% for l in c.livros.all|slice:":4" %}<span class="w-8 h-8 rounded-md grid place-items-center border-2 border-[#fdf6ec] bg-[#e8dcd2] text-[#a83e5c] shadow-sm">{% include 'core/partials/icon.html' with name='book' cls='w-3.5 h-3.5' %}</span>{% endfor %}</div>
+    <div class="flex -space-x-2">{% for l in c.livros.all|slice:":4" %}<span class="w-8 h-8 rounded grid place-items-center border-2 border-[#fdf6ec] overflow-hidden bg-[#d9c6b8] shadow-sm relative">{% if l.capa_src %}<img src="{{ l.capa_src }}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()" onload="if(this.naturalWidth<=1)this.remove()" class="absolute inset-0 h-full w-full object-cover">{% endif %}<span class="font-display font-bold text-xs text-[#4d3a44]/60">{{ l.titulo|first|upper }}</span></span>{% endfor %}</div>
     <span class="font-hand text-xl text-[#6d8cb3]">{{ c.livros.count }} obra(s) na lista — corre ler!!</span>
   </div>
 </a>

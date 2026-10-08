@@ -11,13 +11,13 @@
 {% for l in livros %}
 <a href="{% url 'livro_detalhe' l.pk %}" class="flex items-center gap-3 sm:gap-4 p-3.5 sm:p-5 hover:bg-slate-50 transition group">
   <span class="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-md grid place-items-center font-extrabold text-sm sm:text-base border-2 border-[#4d3a44] {% if forloop.counter == 1 %}bg-[#f2d98d] text-[#4d3a44]{% elif forloop.counter == 2 %}bg-[#e8dcd2] text-[#4d3a44]{% elif forloop.counter == 3 %}bg-[#c98ba0] text-white{% else %}bg-slate-100 text-slate-400{% endif %}">{{ forloop.counter }}</span>
-  <div class="w-11 h-14 sm:w-12 sm:h-16 rounded-lg overflow-hidden shrink-0 bg-gradient-to-br from-indigo-500 to-fuchsia-600 grid place-items-center text-indigo-100">{% if l.capa_src %}<img src="{{ l.capa_src }}" alt="" loading="lazy" class="w-full h-full object-cover">{% else %}{% include 'core/partials/icon.html' with name='book' cls='w-5 h-5' %}{% endif %}</div>
+  <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-md overflow-hidden shrink-0 border-2 border-[#4d3a44]">{% include 'core/partials/capa.html' with livro=l wrap="w-full h-full" %}</div>
   <div class="flex-1 min-w-0">
-    <p class="font-bold truncate text-sm sm:text-base group-hover:text-indigo-500 transition">{{ l.titulo }}</p>
+    <p class="font-bold truncate text-sm sm:text-base group-hover:text-[#a83e5c] transition">{{ l.titulo }}</p>
     <p class="text-xs text-slate-500 truncate mt-0.5">{{ l.autor }} · {{ l.area }}</p>
-    <div class="h-1.5 rounded-full bg-slate-100 mt-2.5 overflow-hidden"><div class="h-full rounded-full transition-all" style="width:{% widthratio l.n_fav max_fav 100 %}%;background:linear-gradient(90deg,#6366f1,#d946ef)"></div></div>
+    <div class="h-1.5 rounded-full bg-slate-100 mt-2.5 overflow-hidden"><div class="h-full rounded-full transition-all" style="width:{% widthratio l.n_fav max_fav 100 %}%;background:linear-gradient(90deg,#6d8cb3,#c9506e)"></div></div>
   </div>
-  <span class="badge bg-pink-100 text-pink-700 shrink-0 !py-1.5">{{ l.n_fav }} favoritos</span>
+  <span class="badge bg-[#fbe9ec] text-[#a83e5c] shrink-0 !py-1.5">♥ {{ l.n_fav }}</span>
 </a>
 {% empty %}
 <div class="p-10 sm:p-14 text-center"><p class="tile w-14 h-14 mx-auto bg-slate-100 text-slate-400">{% include 'core/partials/icon.html' with name='chart' cls='w-6 h-6' %}</p><p class="font-bold mt-4">Ranking ainda vazio</p><p class="text-sm text-slate-500 mt-1">Os favoritos registrados aparecerão aqui.</p></div>

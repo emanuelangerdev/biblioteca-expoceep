@@ -25,7 +25,7 @@
 {% for l in c.livros.all %}
 <div class="card card-hover p-4 flex items-start gap-3">
   <span class="tile w-9 h-14 shrink-0 font-display font-bold text-sm bg-[#f2d98d] text-[#4d3a44]">{{ forloop.counter }}</span>
-  <span class="w-11 h-14 rounded-sm shrink-0 grid place-items-center bg-[#d9c6b8] text-[#7a6470] border-2 border-[#4d3a44] overflow-hidden">{% if l.capa_src %}<img src="{{ l.capa_src }}" alt="" loading="lazy" class="w-full h-full object-cover">{% else %}{% include 'core/partials/icon.html' with name='book' cls='w-5 h-5' %}{% endif %}</span>
+  <span class="w-14 h-14 rounded-sm shrink-0 border-2 border-[#4d3a44] overflow-hidden">{% include 'core/partials/capa.html' with livro=l wrap="w-full h-full" %}</span>
   <div class="min-w-0 flex-1">
     <a href="{% url 'livro_detalhe' l.pk %}" class="font-display font-semibold text-sm leading-snug hover:text-[#a83e5c] transition line-clamp-2 text-[#4d3a44]">{{ l.titulo }}</a>
     <p class="text-xs font-bold text-slate-500 truncate mt-0.5">{{ l.autor }}</p>

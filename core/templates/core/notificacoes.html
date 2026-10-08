@@ -11,15 +11,15 @@
 </div>
 <div class="space-y-2.5 mt-6 max-w-3xl">
 {% for n in notifs %}
-<a href="{% url 'notificacao_ler' n.pk %}" class="card {% if not n.lida %}card-hover ring-2 ring-indigo-400/40{% endif %} p-4 sm:p-5 flex gap-3.5 items-start">
-  <span class="tile w-11 h-11 shrink-0 {% if n.tipo == 'match' %}bg-pink-100 text-pink-600{% elif n.tipo == 'emprestimo' %}bg-emerald-100 text-emerald-600{% elif n.tipo == 'reserva' %}bg-indigo-100 text-indigo-600{% else %}bg-slate-100 text-slate-500{% endif %}">
+<a href="{% url 'notificacao_ler' n.pk %}" class="card {% if not n.lida %}card-hover border-[#c9506e]{% endif %} p-4 sm:p-5 flex gap-3.5 items-start">
+  <span class="tile w-11 h-11 shrink-0 {% if n.tipo == 'match' %}bg-[#fbe9ec] text-[#a83e5c]{% elif n.tipo == 'emprestimo' %}bg-[#dde6d2] text-[#4a5d3f]{% elif n.tipo == 'reserva' %}bg-[#d7e2ee] text-[#3d5a76]{% else %}bg-slate-100 text-slate-500{% endif %}">
     {% if n.tipo == 'match' %}{% include 'core/partials/icon.html' with name='users' cls='w-5 h-5' %}{% elif n.tipo == 'emprestimo' %}{% include 'core/partials/icon.html' with name='book' cls='w-5 h-5' %}{% elif n.tipo == 'reserva' %}{% include 'core/partials/icon.html' with name='clock' cls='w-5 h-5' %}{% else %}{% include 'core/partials/icon.html' with name='info' cls='w-5 h-5' %}{% endif %}
   </span>
   <span class="flex-1 min-w-0">
     <span class="text-sm leading-relaxed block">{{ n.mensagem }}</span>
-    <span class="text-xs text-slate-400 mt-1.5 block">{{ n.criada_em|date:"d/m \à\s H:i" }}{% if not n.lida %} · <b class="text-indigo-500">Não lida</b>{% endif %}</span>
+    <span class="text-xs text-slate-400 mt-1.5 block">{{ n.criada_em|date:"d/m \à\s H:i" }}{% if not n.lida %} · <b class="text-[#a83e5c]">Não lida</b>{% endif %}</span>
   </span>
-  {% if not n.lida %}<span class="w-2.5 h-2.5 rounded-full bg-indigo-500 shrink-0 mt-1.5"></span>{% endif %}
+  {% if not n.lida %}<span class="w-2.5 h-2.5 rounded-full bg-[#c9506e] shrink-0 mt-1.5"></span>{% endif %}
 </a>
 {% empty %}
 <div class="card p-10 sm:p-14 text-center"><p class="tile w-16 h-16 mx-auto bg-slate-100 text-slate-400">{% include 'core/partials/icon.html' with name='bell' cls='w-7 h-7' %}</p><p class="font-bold mt-4">Nenhuma notificação</p><p class="text-sm text-slate-500 mt-1">Novos avisos serão exibidos nesta página.</p></div>

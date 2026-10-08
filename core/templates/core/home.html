@@ -42,7 +42,7 @@
       <div class="grid grid-cols-2 gap-5 rounded-lg bg-black/15 border-2 border-white/30 p-5">
         {% for l in recentes|slice:":4" %}
         <div class="polaroid tape {% if forloop.counter|divisibleby:2 %}translate-y-4 rotate-1{% else %}-rotate-1{% endif %}">
-          <div class="h-24 rounded-sm overflow-hidden bg-[#d9c6b8] grid place-items-center text-[#7a6470] border-2 border-[#4d3a44]">{% if l.capa_src %}<img src="{{ l.capa_src }}" alt="{{ l.titulo }}" class="w-full h-full object-cover">{% else %}{% include 'core/partials/icon.html' with name='book' cls='w-10 h-10' %}{% endif %}</div>
+          <div class="rounded-sm overflow-hidden border-2 border-[#4d3a44]">{% include 'core/partials/capa.html' with livro=l wrap="aspect-square" %}</div>
           <p class="font-display font-semibold text-[13px] leading-tight text-[#4d3a44] mt-2 line-clamp-1">{{ l.titulo }}</p>
           <p class="text-[11px] font-bold text-slate-500 truncate">{{ l.autor }}</p>
         </div>

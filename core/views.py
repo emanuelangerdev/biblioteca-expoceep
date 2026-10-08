@@ -58,7 +58,8 @@ def livros_list(request):
     area = request.GET.get("area", "")
     livros = Livro.objects.annotate(n_fav=Count("favoritos")).order_by("-n_fav", "titulo")
     if q:
-        livros = livros.filter(Q(titulo__icontains=q) | Q(autor__icontains=q))
+        livros = livros.filter(
+            Q(titulo__icontains=q) | Q(autor__icontains=q) | Q(descricao__icontains=q))
     if area:
         livros = livros.filter(area=area)
     fav_ids = set()

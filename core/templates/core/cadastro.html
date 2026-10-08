@@ -3,7 +3,7 @@
 {% block content %}
 <div class="max-w-md mx-auto py-4 sm:py-8">
   <div class="card p-6 sm:p-8 tape">
-    <p class="tile w-14 h-14 mx-auto bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-white">{% include 'core/partials/icon.html' with name='user' cls='w-6 h-6' %}</p>
+    <p class="tile w-14 h-14 mx-auto text-white" style="background:#c98ba0">{% include 'core/partials/icon.html' with name='user' cls='w-6 h-6' %}</p>
     <div class="text-center mt-4"><span class="eyebrow">join the club ☆</span></div>
     <h1 class="font-display font-bold text-2xl tracking-tight text-center mt-3 text-[#4d3a44]">Criar continha ★</h1>
     <p class="text-sm font-bold text-slate-500 text-center mt-1 mb-6">leva 1 min, juro! e já pode dar match ♥</p>
@@ -18,7 +18,7 @@
       {% endfor %}
       <button class="btn-primary w-full !py-3">Criar conta</button>
     </form>
-    <p class="text-sm text-center mt-6 text-slate-500">Já possui conta? <a href="{% url 'login' %}" class="font-bold text-indigo-500 hover:text-indigo-600">Entrar</a></p>
+    <p class="text-sm text-center mt-6 text-slate-500">Já possui conta? <a href="{% url 'login' %}" class="font-bold text-[#a83e5c] hover:underline">Entrar</a></p>
   </div>
 </div>
 {% endblock %}

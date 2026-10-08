@@ -20,11 +20,11 @@
 {% for e in ativos %}
 <article class="card p-4 sm:p-6">
   <div class="flex items-start gap-3.5">
-    <span class="tile w-11 h-11 shrink-0 {% if e.status == 'atrasado' %}bg-red-100 text-red-600{% else %}bg-emerald-100 text-emerald-600{% endif %}">{% include 'core/partials/icon.html' with name='book' cls='w-5 h-5' %}</span>
+    <span class="tile w-11 h-11 shrink-0 {% if e.status == 'atrasado' %}bg-[#f6d9d4] text-[#8f3a32]{% else %}bg-[#dde6d2] text-[#4a5d3f]{% endif %}">{% include 'core/partials/icon.html' with name='book' cls='w-5 h-5' %}</span>
     <div class="flex-1 min-w-0">
       <div class="flex flex-wrap items-center gap-2">
-        <a href="{% url 'livro_detalhe' e.livro.pk %}" class="font-bold hover:text-indigo-500 transition truncate">{{ e.livro.titulo }}</a>
-        <span class="badge {% if e.status == 'atrasado' %}bg-red-100 text-red-700{% else %}bg-emerald-100 text-emerald-700{% endif %}">{{ e.get_status_display }}</span>
+        <a href="{% url 'livro_detalhe' e.livro.pk %}" class="font-bold hover:text-[#a83e5c] transition truncate">{{ e.livro.titulo }}</a>
+        <span class="badge {% if e.status == 'atrasado' %}bg-[#f6d9d4] text-[#8f3a32]{% else %}bg-[#dde6d2] text-[#4a5d3f]{% endif %}">{{ e.get_status_display }}</span>
       </div>
       <p class="text-xs text-slate-500 mt-1.5 flex flex-wrap gap-x-4 gap-y-1">
         <span class="inline-flex items-center gap-1">{% include 'core/partials/icon.html' with name='calendar' cls='w-3.5 h-3.5' %}Retirada em {{ e.data_emprestimo|date:"d/m/Y" }}</span>
@@ -33,7 +33,7 @@
       </p>
       <div class="mt-3">
         <div class="h-1.5 rounded-full bg-slate-100 overflow-hidden">
-          <div class="h-full rounded-full {% if e.status == 'atrasado' %}bg-red-500{% else %}bg-gradient-to-r from-indigo-500 to-violet-500{% endif %}" style="width:{% widthratio e.progresso 1 100 %}%"></div>
+          <div class="h-full rounded-full {% if e.status == 'atrasado' %}bg-[#c94f4f]{% else %}bg-[#6d8cb3]{% endif %}" style="width:{% widthratio e.progresso 1 100 %}%"></div>
         </div>
         <p class="text-[11px] font-semibold mt-1.5 {% if e.status == 'atrasado' %}text-red-500{% else %}text-slate-400{% endif %}">
           {% if e.status == 'atrasado' %}{{ e.dias_atraso }} dia(s) em atraso · Multa simulada: R$ {{ e.multa_simulada|floatformat:2 }}{% elif e.dias_restantes == 0 %}Vence hoje{% else %}Restam {{ e.dias_restantes }} dia(s){% endif %}
@@ -60,9 +60,9 @@
 <div class="space-y-2.5 max-w-3xl">
 {% for r in reservas %}
 <div class="card p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3">
-  <span class="tile w-11 h-11 bg-indigo-100 text-indigo-600 shrink-0 font-extrabold">{{ r.posicao }}º</span>
+  <span class="tile w-11 h-11 bg-[#d7e2ee] text-[#3d5a76] shrink-0 font-extrabold">{{ r.posicao }}º</span>
   <div class="flex-1 min-w-0">
-    <a href="{% url 'livro_detalhe' r.livro.pk %}" class="font-bold text-sm hover:text-indigo-500 transition truncate block">{{ r.livro.titulo }}</a>
+    <a href="{% url 'livro_detalhe' r.livro.pk %}" class="font-bold text-sm hover:text-[#a83e5c] transition truncate block">{{ r.livro.titulo }}</a>
     <p class="text-xs text-slate-500 mt-0.5">Reservado em {{ r.criada_em|date:"d/m/Y" }} · Posição {{ r.posicao }} na fila</p>
   </div>
   <a href="{% url 'cancelar_reserva' r.pk %}" class="btn-ghost !py-2 text-xs shrink-0">Cancelar</a>

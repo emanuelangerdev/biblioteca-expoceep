@@ -1,0 +1,18 @@
+{% comment %}
+  Capa do livro em formato QUADRADO com fallback retrô (sem neon).
+  Uso: {% include 'core/partials/capa.html' with livro=l wrap="aspect-square" %}
+  - Se houver capa (upload local ou URL), a <img> cobre o placeholder.
+  - Se a URL externa falhar (offline/feira/CDN instável), o onerror remove
+    a <img> e aparece o placeholder com a inicial da obra.
+  - Se a Open Library devolver o gif em branco 1x1 de "capa não encontrada",
+    o onload detecta (naturalWidth <= 1) e também cai no placeholder.
+{% endcomment %}
+<div class="relative overflow-hidden bg-[#d9c6b8] grid place-items-center {{ wrap|default:'aspect-square' }}">
+  <div class="text-center px-2 select-none" aria-hidden="true">
+    <p class="font-display font-bold leading-none text-[#4d3a44]/60 text-3xl">{{ livro.titulo|default:"?"|first|upper }}</p>
+    <p class="text-[10px] font-extrabold uppercase tracking-widest text-[#4d3a44]/50 mt-1 line-clamp-2">{{ livro.area|default:"biblio" }}</p>
+  </div>
+  {% if livro.capa_src %}
+  <img src="{{ livro.capa_src }}" alt="Capa de {{ livro.titulo }}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()" onload="if(this.naturalWidth<=1)this.remove()" class="absolute inset-0 h-full w-full object-cover">
+  {% endif %}
+</div>
