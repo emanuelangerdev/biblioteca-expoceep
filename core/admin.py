@@ -4,7 +4,8 @@ from .models import Colecao, Emprestimo, Favorito, Livro, MatchLiterario, Notifi
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ("usuario", "telefone")
+    list_display = ("usuario", "telefone", "telefone_publico")
+    list_filter = ("telefone_publico",)
     search_fields = ("usuario__username", "telefone")
 
 

@@ -18,10 +18,20 @@
 
   <div class="mt-6 pt-6 border-t border-slate-100">
     <h2 class="font-bold">Contato para matches</h2>
-    <p class="text-xs text-slate-500 mt-1 leading-relaxed">Leitores que combinarem match com você verão um botão de contato vinculado a este número de WhatsApp.</p>
-    <form method="post" class="flex flex-col sm:flex-row gap-2.5 mt-3.5">{% csrf_token %}
-      <div class="flex-1">{{ form.telefone }}</div>
-      <button class="btn-primary text-sm justify-center shrink-0">Salvar número</button>
+    <p class="text-xs text-slate-500 mt-1 leading-relaxed">Leitores que combinarem match com você verão um botão de contato vinculado a este número de WhatsApp — a menos que você o mantenha privado.</p>
+    <form method="post" class="mt-3.5 space-y-3">{% csrf_token %}
+      <div>
+        <div class="flex flex-col sm:flex-row gap-2.5">
+          <div class="flex-1">{{ form.telefone }}</div>
+          <button class="btn-primary text-sm justify-center shrink-0">Salvar número</button>
+        </div>
+        {% if form.telefone.errors %}<p class="text-xs text-red-500 mt-1.5 font-medium">{{ form.telefone.errors.0 }}</p>{% endif %}
+      </div>
+      <label class="flex items-start gap-2.5 text-sm cursor-pointer select-none">
+        {{ form.telefone_publico }}
+        <span><span class="font-semibold">{{ form.telefone_publico.label }}</span><br><span class="text-xs text-slate-500">{{ form.telefone_publico.help_text }}</span></span>
+      </label>
+      {% if form.telefone_publico.errors %}<p class="text-xs text-red-500 font-medium">{{ form.telefone_publico.errors.0 }}</p>{% endif %}
     </form>
   </div>
 </div>

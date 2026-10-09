@@ -29,8 +29,11 @@ AREAS = [
 class Profile(models.Model):
     """Telefone de contato do usuário (usado no botão WhatsApp do match)."""
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
-    telefone = models.CharField(max_length=20, blank=True,
+    telefone = models.CharField(max_length=20, blank=False,
                                 help_text="Somente números com DDD. Ex: 11999998888")
+    telefone_publico = models.BooleanField(
+        default=True,
+        help_text="Se marcado, outros leitores com match poderão ver seu número.")
 
     def __str__(self):
         return f"{self.usuario.username}: {self.telefone or '—'}"
@@ -40,6 +43,8 @@ class Profile(models.Model):
         return re.sub(r"\D", "", self.telefone or "")
 
     def whatsapp_url(self, livro_titulo=""):
+        if not self.telefone_publico:
+            return ""
         fone = self.telefone_somente_digitos
         if not fone:
             return ""

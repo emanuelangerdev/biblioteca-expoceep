@@ -138,10 +138,12 @@ def meus_matches(request):
     for m in matches:
         outro = m.usuario2 if m.usuario1 == request.user else m.usuario1
         profile, _ = Profile.objects.get_or_create(usuario=outro)
+        publico = profile.telefone_publico
         cards.append({
             "match": m, "outro": outro,
-            "telefone": profile.telefone_somente_digitos,
+            "telefone": profile.telefone_somente_digitos if publico else "",
             "wa_url": profile.whatsapp_url(m.livro.titulo),
+            "telefone_publico": publico,
         })
     return render(request, "core/matches.html", {"cards": cards})
 

@@ -6,36 +6,52 @@ from .models import AREAS, Colecao, Livro, Profile
 
 
 class CadastroForm(UserCreationForm):
-    telefone = forms.CharField(required=False, max_length=20,
+    telefone = forms.CharField(required=True, max_length=20,
+                               label="Telefone (WhatsApp)",
                                widget=forms.TextInput(attrs={
                                    "class": "input",
                                    "placeholder": "11999998888 (só números, com DDD)"}))
+    telefone_publico = forms.BooleanField(
+        required=False, initial=True,
+        label="Tornar meu número público?",
+        help_text="Se marcado, leitores com match poderão ver seu número e te chamar no WhatsApp.")
 
     class Meta:
         model = User
-        fields = ("username", "telefone", "password1", "password2")
+        fields = ("username", "telefone", "telefone_publico", "password1", "password2")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for f in self.fields.values():
-            f.widget.attrs.setdefault("class", "input")
+            if not isinstance(f.widget, forms.CheckboxInput):
+                f.widget.attrs.setdefault("class", "input")
 
     def save(self, commit=True):
         user = super().save(commit=commit)
         fone = (self.cleaned_data.get("telefone") or "").strip()
-        if commit and fone:
+        publico = self.cleaned_data.get("telefone_publico", True)
+        if commit:
             Profile.objects.update_or_create(
-                usuario=user, defaults={"telefone": fone})
-        elif not commit:
+                usuario=user,
+                defaults={"telefone": fone, "telefone_publico": publico})
+        else:
             # guarda p/ a view salvar junto (caso atípico)
             user._telefone_pendente = fone
+            user._telefone_publico_pendente = publico
         return user
 
 
 class TelefoneForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ["telefone"]
+        fields = ["telefone", "telefone_publico"]
+        labels = {
+            "telefone": "Telefone (WhatsApp)",
+            "telefone_publico": "Tornar meu número público?",
+        }
+        help_texts = {
+            "telefone_publico": "Se marcado, leitores com match poderão ver seu número.",
+        }
         widgets = {
             "telefone": forms.TextInput(attrs={
                 "class": "input", "placeholder": "11999998888 (só números, com DDD)"}),

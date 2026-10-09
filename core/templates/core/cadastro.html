@@ -9,12 +9,20 @@
     <p class="text-sm font-bold text-slate-500 text-center mt-1 mb-6">leva 1 min, juro! e já pode dar match ♥</p>
     <form method="post" class="space-y-4" novalidate>{% csrf_token %}
       {% for f in form %}
+      {% if f.field.widget.input_type == 'checkbox' %}
+      <label class="flex items-start gap-2.5 text-sm cursor-pointer select-none bg-[#fdf6ec] border-2 border-[#4d3a44] rounded-md p-3 shadow-[2px_2px_0_#4d3a44]" for="{{ f.id_for_label }}">
+        {{ f }}
+        <span><span class="font-bold">{{ f.label }}</span><br><span class="text-[11px] text-slate-500 leading-relaxed">{{ f.help_text }}</span></span>
+      </label>
+      {% if f.errors %}<p class="text-xs text-red-500 mt-1.5 font-medium">{{ f.errors.0 }}</p>{% endif %}
+      {% else %}
       <div>
-        <label class="flabel" for="{{ f.id_for_label }}">{{ f.label }}</label>
+        <label class="flabel" for="{{ f.id_for_label }}">{{ f.label }}{% if f.field.required %} *{% endif %}</label>
         {{ f }}
         {% if f.errors %}<p class="text-xs text-red-500 mt-1.5 font-medium">{{ f.errors.0 }}</p>{% endif %}
         {% if f.help_text %}<p class="text-[11px] text-slate-400 mt-1 leading-relaxed">{{ f.help_text }}</p>{% endif %}
       </div>
+      {% endif %}
       {% endfor %}
       <button class="btn-primary w-full !py-3">Criar conta</button>
     </form>
