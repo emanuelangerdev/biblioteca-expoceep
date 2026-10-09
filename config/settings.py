@@ -9,6 +9,22 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+
+def _env_list(name):
+    return [v.strip() for v in os.environ.get(name, "").split(",") if v.strip()]
+
+
+# Origens confiáveis p/ POST (exigido pelo Django quando o site é acessado
+# via HTTPS através de proxy/túnel — ex: Codespaces, ngrok, preview público).
+# Ex: DJANGO_CSRF_TRUSTED_ORIGINS="https://seu-link.app.github.dev,https://outro.ngrok.io"
+CSRF_TRUSTED_ORIGINS = _env_list("DJANGO_CSRF_TRUSTED_ORIGINS")
+
+# Atrás de proxy HTTPS (Codespaces/ngrok): permite ao Django reconhecer o
+# esquema original. Ative com DJANGO_BEHIND_PROXY=1.
+if os.environ.get("DJANGO_BEHIND_PROXY", "") in ("1", "true", "yes"):
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    USE_X_FORWARDED_HOST = True
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
