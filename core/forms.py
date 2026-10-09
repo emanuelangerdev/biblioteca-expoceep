@@ -11,33 +11,28 @@ class CadastroForm(UserCreationForm):
                                widget=forms.TextInput(attrs={
                                    "class": "input",
                                    "placeholder": "11999998888 (só números, com DDD)"}))
-    telefone_publico = forms.BooleanField(
-        required=False, initial=True,
-        label="Tornar meu número público?",
-        help_text="Se marcado, leitores com match poderão ver seu número e te chamar no WhatsApp.")
 
     class Meta:
         model = User
-        fields = ("username", "telefone", "telefone_publico", "password1", "password2")
+        fields = ("username", "telefone", "password1", "password2")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for f in self.fields.values():
-            if not isinstance(f.widget, forms.CheckboxInput):
-                f.widget.attrs.setdefault("class", "input")
+            f.widget.attrs.setdefault("class", "input")
 
     def save(self, commit=True):
         user = super().save(commit=commit)
         fone = (self.cleaned_data.get("telefone") or "").strip()
-        publico = self.cleaned_data.get("telefone_publico", True)
         if commit:
+            # No cadastro o número nasce público; a privacidade só é
+            # configurável depois, na página de perfil (TelefoneForm).
             Profile.objects.update_or_create(
                 usuario=user,
-                defaults={"telefone": fone, "telefone_publico": publico})
+                defaults={"telefone": fone, "telefone_publico": True})
         else:
             # guarda p/ a view salvar junto (caso atípico)
             user._telefone_pendente = fone
-            user._telefone_publico_pendente = publico
         return user
 
 
