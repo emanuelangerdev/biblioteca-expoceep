@@ -14,20 +14,21 @@ def _env_list(name):
     return [v.strip() for v in os.environ.get(name, "").split(",") if v.strip()]
 
 
-# Origens confiáveis p/ POST (exigido pelo Django quando o site é acessado
-# via HTTPS através de proxy/túnel — ex: Codespaces, ngrok, preview público).
-# Ex: DJANGO_CSRF_TRUSTED_ORIGINS="https://seu-link.app.github.dev,https://outro.ngrok.io"
-CSRF_TRUSTED_ORIGINS = _env_list("DJANGO_CSRF_TRUSTED_ORIGINS")
+# Origens confiáveis p/ POST (o Django confere o header Origin em todo POST;
+# navegadores modernos sempre o enviam). Inclui wildcards p/ túneis que mudam
+# de URL a cada restart (ngrok gratuito, Codespaces). O token CSRF continua
+# obrigatório — a origem sozinha não autoriza nada.
+# Extensível via env: DJANGO_CSRF_TRUSTED_ORIGINS="https://meu-dominio.com"
+CSRF_TRUSTED_ORIGINS = _env_list("DJANGO_CSRF_TRUSTED_ORIGINS") + [
+    "https://*.ngrok-free.dev",
+    "https://*.ngrok.io",
+    "https://*.app.github.dev",
+]
 
-# Atrás de proxy HTTPS (Codespaces/ngrok): permite ao Django reconhecer o
-# esquema original. Ative com DJANGO_BEHIND_PROXY=1.
-if os.environ.get("DJANGO_BEHIND_PROXY", "") in ("1", "true", "yes"):
-    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-    USE_X_FORWARDED_HOST = True
-    # Cobre URLs rotativas do ngrok gratuito (*.ngrok-free.dev), que mudam
-    # a cada restart. O token CSRF continua obrigatório, então o risco é mínimo.
-    if "https://*.ngrok-free.dev" not in CSRF_TRUSTED_ORIGINS:
-        CSRF_TRUSTED_ORIGINS.append("https://*.ngrok-free.dev")
+# Atrás de proxy HTTPS (ngrok/Codespaces): permite ao Django reconhecer o
+# esquema original (necessário p/ a checagem de Referer quando não há Origin).
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+USE_X_FORWARDED_HOST = True
 
 INSTALLED_APPS = [
     "django.contrib.admin",
